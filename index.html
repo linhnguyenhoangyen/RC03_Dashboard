@@ -304,7 +304,7 @@ td.gapc strong{color:#fff;font-weight:600}
    CẤU HÌNH: dán URL Web App của Apps Script vào API_URL sau khi triển khai.
    ===================================================================== */
 const CONFIG = {
-  API_URL: 'https://script.google.com/a/macros/base.vn/s/AKfycbyGr7qnQRaTmbHIoloyKKeXpEp6BRRoH3FoeAtH2Hv6KTgwL8ZjUcm4MSvQDw2fkoo/exec',
+  API_URL: 'https://script.google.com/a/macros/base.vn/s/AKfycbwNmJaBYuYPERqwpCviBm8KdVFbodI5TNqAcCqabjsyF5OFqxkIgPPWB1CvEngt5iy-/exec',
   YEAR: 2026,
   MONTHS: [10, 11, 12],
   QUARTER_START: '2026-10-01T00:00:00+07:00',
@@ -319,7 +319,7 @@ const CONFIG = {
 
 /* Ảnh nhân sự (thư mục Google Drive, tên file = Username) */
 const AVATARS = {
-  ngocle:'1XiqHIYeEXiISlMyP-FIpSD1toZNUYbb2', luanvo:'1i9S4xWgEKNHzM9rtmMjqnP4FF_IrFKCi', suknguyen:'1h4WvZQ4wUkPtyVU1JmDQBTBkzypeN7KL',
+  ngocle:'1XiqHIYeEXiISlMyP-FIpSD1toZNUYbb2', hoangmy:'1cDdrhWYATl5UDfJO2En8wP2_lwptueLy', luanvo:'1i9S4xWgEKNHzM9rtmMjqnP4FF_IrFKCi', suknguyen:'1h4WvZQ4wUkPtyVU1JmDQBTBkzypeN7KL',
   vando02:'1dnbZ_dhTGhpMS0DF6-Arebpf-zMBEoJY', ngannguyen07:'15oLxpJlj4KWCUw_0MXv7XZ8DbpUWAH7f', kenphan:'1Hn7a7XY6GUnOsHyRNHtYovX1ZSxdE6Zn',
   mynguyen08:'1dNLeSs7YF5HSvY06w1wtWP-mzWXIGoTF', cuc:'1HNWE6YFNyWFMM1u6eqZW6J72-a8IgNg9', lamnguyen04:'1nMl5XuUEU3XDULfMkcNLTn44Na_PagaS',
   truongluu:'1G_QNaXwReSuQoRDsgNuJsJonCf0kPWNl', thanhnguyen08:'1_ANBVgJcihQHcWz-2Iifnv_6s34AyX3W',
@@ -433,12 +433,28 @@ const valOf=r=>S.period==='q'?r.q:r.m[S.period];
 const periodName=()=>S.period==='q'?'cả quý 4':'tháng '+S.period;
 
 /* ---------- Tải dữ liệu ---------- */
+/* Đọc dữ liệu: thử fetch trước, không được thì dùng JSONP (hợp với bản triển khai giới hạn trong base.vn) */
+function jsonp(url,ms=20000){
+  return new Promise((res,rej)=>{
+    const cb='__rc3cb'+Date.now()+Math.floor(Math.random()*1e4),sc=document.createElement('script');
+    const done=()=>{delete window[cb];sc.remove();clearTimeout(t);};
+    const t=setTimeout(()=>{done();rej(new Error('Hết thời gian chờ'));},ms);
+    window[cb]=d=>{done();res(d);};
+    sc.onerror=()=>{done();rej(new Error('Không đọc được Apps Script'));};
+    sc.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.head.appendChild(sc);
+  });
+}
+async function getData(){
+  const u=CONFIG.API_URL+'?action=data&t='+Date.now();
+  try{const r=await fetch(u);return await r.json();}
+  catch(e){return await jsonp(u);}
+}
 async function load(manual){
   const btn=$('#btnRefresh');btn.classList.add('spin');
   try{
     if(!CONFIG.API_URL){S.staff=SEED.staff;S.deals=SEED.deals;}
     else{
-      const r=await fetch(CONFIG.API_URL+'?action=data&t='+Date.now());const j=await r.json();
+      const j=await getData();
       if(!j.ok)throw new Error(j.error||'Lỗi không rõ');
       S.staff=j.staff;S.deals=j.deals;if(j.config&&+j.config.quarterFactor)S.factor=+j.config.quarterFactor;
     }
