@@ -304,7 +304,7 @@ td.gapc strong{color:#fff;font-weight:600}
    CẤU HÌNH: dán URL Web App của Apps Script vào API_URL sau khi triển khai.
    ===================================================================== */
 const CONFIG = {
-  API_URL: 'https://script.google.com/a/macros/base.vn/s/AKfycbwNmJaBYuYPERqwpCviBm8KdVFbodI5TNqAcCqabjsyF5OFqxkIgPPWB1CvEngt5iy-/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbzNKR49Jl5Vv8L0Cu48N1iZHM4x-Oy3sd7NUzB5psNtcWRa1EfgJgHWJDpvaZzz_4D8/exec',
   YEAR: 2026,
   MONTHS: [10, 11, 12],
   QUARTER_START: '2026-10-01T00:00:00+07:00',
@@ -326,7 +326,7 @@ const AVATARS = {
   hungphan:'16BDJusEFQneX8DATdZsohQaj5RWQotwh', phuongho:'1bWpL8cjjSCArpRP3w0fv5jm4MHlNZMCn', hatran02:'1LsZon5InfcvtXSkXWSYWQaE3A7Hr93HM'
 };
 
-/* Dữ liệu dự phòng (Google Sheet ngày 09/10/2026), dùng khi chưa có API_URL */
+/* Dữ liệu dự phòng (Google Sheet ngày 09/10/2026, cập nhật thêm hatran02), dùng khi chưa có API_URL */
 const SEED = {
   staff: [
     ["Lê Bảo Ngọc","Ngọc Lê","ngocle","SOLO - BE.E","PKD 3.2 - Be.E","Level 6",110e6,155e6,210e6,320e6],
@@ -341,13 +341,14 @@ const SEED = {
     ["Nguyễn Kim Cúc","Cúc Nguyễn","cuc","SOLO - BD CREW","PKD 3.1 - BD Crew","Level 7",140e6,190e6,300e6,420e6],
     ["Nguyễn Hoàng Lam","Lam Nguyễn 04","lamnguyen04","SOLO - BD CREW","PKD 3.1 - BD Crew","Level 4",70e6,100e6,145e6,190e6],
     ["Lưu Phúc Trường","Trường Lưu","truongluu","The Game Changers","PKD 3.1 - BD Crew","Level 5",90e6,125e6,175e6,250e6],
-    ["Nguyễn Thị Liên Thanh","Thanh Nguyễn 08","thanhnguyen08","The Game Changers","PKD 3.1 - BD Crew","Level 4",70e6,100e6,145e6,190e6]
+    ["Nguyễn Thị Liên Thanh","Thanh Nguyễn 08","thanhnguyen08","The Game Changers","PKD 3.1 - BD Crew","Level 4",70e6,100e6,145e6,190e6],
+    ["Trần Chánh Nhật Hà","Hà Trần 02","hatran02","PRIME","PKD 3.1 - BD Crew","Level 5",90e6,125e6,175e6,250e6]
   ].map(r=>({fullName:r[0],name:r[1],username:r[2],team:r[3],dept:r[4],level:r[5],backup:r[6],kpi:r[7],goal:r[8],outperf:r[9],avatar:''})),
   deals: [
     ["luanvo","2026-10-01",12840000],["mynguyen08","2026-10-01",33180000],["hoangmy","2026-10-02",6300000],["ngocle","2026-10-03",102432000],
     ["hoangmy","2026-10-03",25608000],["ngocle","2026-10-05",19825400],["hoangmy","2026-10-05",8496600],["suknguyen","2026-10-06",25920000],
     ["kenphan","2026-10-06",26098200],["mynguyen08","2026-10-06",2899800],["truongluu","2026-10-08",25080000],["ngannguyen07","2026-10-09",50400000],
-    ["ngannguyen07","2026-10-09",121800000]
+    ["ngannguyen07","2026-10-09",121800000],["hatran02","2026-10-09",138000000]
   ].map(r=>({owner:r[0],date:r[1],year:+r[1].slice(0,4),month:+r[1].slice(5,7),perf:r[2]}))
 };
 
