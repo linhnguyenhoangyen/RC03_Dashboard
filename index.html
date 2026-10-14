@@ -236,6 +236,26 @@ tr.lvrow.on td{background:rgba(111,182,255,.12)}
 .more{display:flex;justify-content:center;margin-top:14px}
 .empty{padding:26px;text-align:center;color:var(--muted)}
 
+
+/* ---------- Chuyển động trang KAM ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 currentColor}50%{box-shadow:0 0 0 4px transparent}}
+@keyframes titleSheen{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0)*90ms)}
+.kam-hero h1{background:linear-gradient(95deg,#FFFFFF 0%,#DCEBFF 25%,#BBA9FF 50%,#DCEBFF 75%,#FFFFFF 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleSheen 9s linear infinite}
+.kam-hero .eyebrow svg{animation:floatY 3.2s ease-in-out infinite}
+#pgKam .stat{transition:transform .25s,border-color .25s,box-shadow .25s}
+#pgKam .stat:hover{transform:translateY(-3px);border-color:var(--edge2);box-shadow:0 10px 26px rgba(8,12,60,.35)}
+.anim tr.acc,.anim tr.lvrow{animation:rowIn .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--i,0),30)*22ms)}
+.anim .share .bar i{transform-origin:left;animation:growX 1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--i,0),20)*40ms + 200ms)}
+tr.acc td,tr.lvrow td{transition:background .2s}
+tr.apps>td>table{animation:dropIn .35s cubic-bezier(.2,.8,.2,1) both}
+.st.warn::before,.st.bad::before{animation:dotPulse 1.8s ease-in-out infinite}
+.viewer{animation:rise .7s .15s cubic-bezier(.2,.8,.2,1) both}
 @media (max-width:980px){
   .filters{grid-template-columns:1fr 1fr}
   .filters .inp{grid-column:1/-1}
@@ -452,7 +472,7 @@ tr.lvrow.on td{background:rgba(111,182,255,.12)}
    CẤU HÌNH: dán URL Web App của Apps Script vào API_URL sau khi triển khai.
    ===================================================================== */
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbzNKR49Jl5Vv8L0Cu48N1iZHM4x-Oy3sd7NUzB5psNtcWRa1EfgJgHWJDpvaZzz_4D8/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbyqBD0gpPPuOBjCsQKEeX1q9y5HI06mOWTi8rYQ04cvdQuY9jwVFQtk6_aYXaKUsVol/exec',
   YEAR: 2026,
   MONTHS: [10, 11, 12],
   QUARTER_START: '2026-10-01T00:00:00+07:00',
@@ -888,7 +908,7 @@ async function kamGet(email){
   try{const r=await fetch(u);return await r.json();}catch(e){return await jsonp(u,30000);}
 }
 function showGate(msg){
-  $('#kamGate').hidden=false;$('#kamBody').hidden=true;$('#kamStats').hidden=true;$('#kamViewer').hidden=true;
+  $('#kamGate').hidden=false;riseIn([$('#kamGate')]);$('#kamBody').hidden=true;$('#kamStats').hidden=true;$('#kamViewer').hidden=true;
   const m=$('#kamMsg');m.hidden=!msg;m.textContent=msg||'';
   if(!$('#kamEmail').value)$('#kamEmail').value=LS.get(KAM_KEY);
 }
@@ -909,7 +929,7 @@ async function loadKam(email,manual){
     j.accounts.forEach(a=>{a.key=a.id+'|'+a.bc;a.apps=a.apps.map(([app,start,end])=>{const days=end?dayDiff(end,today):null;return{app,start,end,days,st:stOf(days)};});});
     K.data=j;K.updatedAt=new Date();
     $('#kamGate').hidden=true;$('#kamBody').hidden=false;$('#kamStats').hidden=false;$('#kamViewer').hidden=false;
-    renderKam();if(manual)toast('Đã cập nhật danh sách khách hàng.');
+    renderKam(true);if(manual)toast('Đã cập nhật danh sách khách hàng.');
   }catch(e){console.error(e);showGate('Chưa tải được danh sách CSM từ Google Sheet. Thử lại sau ít phút.');}
   finally{K.loading=false;btn.classList.remove('spin');}
 }
@@ -974,10 +994,10 @@ function renderKamHead(){
   const d30=apps.filter(x=>x.days!=null&&x.days>=0&&x.days<=30).length;
   $('#kamViewer').innerHTML=`<span>Đang xem với email</span><b>${esc(j.viewer)}</b><span class="chip">${esc(j.role)}${j.name?' · '+esc(j.name):''}</span><br>
     <button class="btn" type="button" id="kamSwitch">Đổi email</button>`;
-  $('#kamStats').innerHTML=`<div class="stat"><span>Account</span><b>${nf.format(ids.size)}</b><small>Đếm theo Primary ID</small></div>
-    <div class="stat"><span>Ứng dụng đang theo dõi</span><b>${nf.format(apps.length)}</b><small>${nf.format(c.ok)} còn hạn trên 90 ngày</small></div>
-    <div class="stat warn"><span>Hết hạn trong 90 ngày tới</span><b>${nf.format(c.warn)}</b><small>${nf.format(accWith('warn'))} account · ${nf.format(d30)} ứng dụng trong 30 ngày</small></div>
-    <div class="stat bad"><span>Đã hết hạn</span><b>${nf.format(c.bad)}</b><small>${nf.format(accWith('bad'))} account có ứng dụng hết hạn</small></div>`;
+  $('#kamStats').innerHTML=`<div class="stat"><span>Account</span><b data-n="${ids.size}">${nf.format(ids.size)}</b><small>Đếm theo Primary ID</small></div>
+    <div class="stat"><span>Ứng dụng đang theo dõi</span><b data-n="${apps.length}">${nf.format(apps.length)}</b><small>${nf.format(c.ok)} còn hạn trên 90 ngày</small></div>
+    <div class="stat warn"><span>Hết hạn trong 90 ngày tới</span><b data-n="${c.warn}">${nf.format(c.warn)}</b><small>${nf.format(accWith('warn'))} account · ${nf.format(d30)} ứng dụng trong 30 ngày</small></div>
+    <div class="stat bad"><span>Đã hết hạn</span><b data-n="${c.bad}">${nf.format(c.bad)}</b><small>${nf.format(accWith('bad'))} account có ứng dụng hết hạn</small></div>`;
 }
 function renderKamSum(){
   const A=K.data.accounts,lv=K.lv;
@@ -992,7 +1012,7 @@ function renderKamSum(){
   const rows=list.map((o,i)=>{const c=countSt(o.apps),s=staffByName(o.name);
     const nameCell=lv==='bc'?`<div class="who">${avaHTML(s||{username:o.name,name:o.name},'sm')}<div class="who-txt"><b>${esc(o.name)}</b>${s?`<span>${esc(s.level||'')}</span>`:''}</div></div>`:`<b>${esc(o.name)}</b>`;
     const ex=lv==='team'?`<td>${esc(o.dept)}</td>`:lv==='bc'?`<td>${esc(o.team)}</td><td>${esc(o.dept)}</td>`:`<td class="num">${o.bcs.size}</td>`;
-    return `<tr class="lvrow ${cur===o.name?'on':''}" data-lvname="${esc(o.name)}" title="Bấm để lọc danh sách theo ${esc(o.name)}"><td>${i+1}</td><td>${nameCell}</td>${ex}
+    return `<tr class="lvrow ${cur===o.name?'on':''}" style="--i:${i}" data-lvname="${esc(o.name)}" title="Bấm để lọc danh sách theo ${esc(o.name)}"><td>${i+1}</td><td>${nameCell}</td>${ex}
       <td class="num"><b>${nf.format(o.ids.size)}</b></td><td class="num">${nf.format(o.apps.length)}</td>
       <td class="num" style="color:#5FE3A6">${nf.format(c.ok)}</td><td class="num" style="color:#FFC94D">${nf.format(c.warn)}</td><td class="num" style="color:#FF8FA3">${nf.format(c.bad)}</td>
       <td><div class="share"><div class="bar"><i style="width:${o.ids.size/total*100}%;background:linear-gradient(90deg,#3D7BFF,#8FE1FF)"></i></div>${pctTxt(o.ids.size/total*100)}</div></td></tr>`;}).join('');
@@ -1011,7 +1031,7 @@ function renderKamList(){
     const sub=open?`<tr class="apps"><td colspan="7"><table><thead><tr><th>Ứng dụng</th><th>Bắt đầu HĐ gần nhất</th><th>Ngày hết hạn</th><th class="num">Còn lại</th><th>Trạng thái</th></tr></thead><tbody>${
       [...a.fa].sort((x,y)=>(x.end||'9').localeCompare(y.end||'9')).map(x=>`<tr><td>${esc(x.app)}</td><td>${fmtD(x.start)}</td><td>${fmtD(x.end)}</td>
         <td class="num">${x.days==null?'–':x.days<0?`quá ${nf.format(-x.days)} ngày`:`${nf.format(x.days)} ngày`}</td><td><span class="st ${x.st}">${ST_NAME[x.st]}</span></td></tr>`).join('')}</tbody></table></td></tr>`:'';
-    return `<tr class="acc ${open?'open':''}" data-key="${esc(a.key)}" aria-expanded="${open}"><td><span class="caret">▸</span> ${i+1}</td>
+    return `<tr class="acc ${open?'open':''}" style="--i:${i}" data-key="${esc(a.key)}" aria-expanded="${open}"><td><span class="caret">▸</span> ${i+1}</td>
       <td class="cust"><b title="${esc(a.name)}">${esc(a.name)}</b><span>MST ${esc(a.mst||a.id)}</span></td>
       <td><div class="who">${avaHTML(s||{username:a.bc,name:a.bc},'sm')}<div class="who-txt"><b>${esc(a.bc)}</b><span>${esc(a.team)}</span></div></div></td>
       <td class="num">${a.fa.length}${a.fa.length!==a.apps.length?`<span class="dash"> / ${a.apps.length}</span>`:''}</td>
@@ -1022,7 +1042,17 @@ function renderKamList(){
     <tbody>${rows||'<tr><td colspan="7" class="empty">Không có account nào khớp bộ lọc.</td></tr>'}</tbody>`;
   $('#kamMore').hidden=list.length<=K.limit;
 }
-function renderKam(){if(!K.data)return;renderKamControls();renderKamHead();renderKamSum();renderKamList();}
+
+/* Đếm số chạy lên cho ô thống kê */
+function countUp(root){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  root.querySelectorAll('[data-n]').forEach(el=>{const n=+el.dataset.n,t0=performance.now(),D=1100;
+    const st=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);el.textContent=nf.format(Math.round(n*e));if(k<1)requestAnimationFrame(st);};requestAnimationFrame(st);});
+}
+function riseIn(els){els.forEach((el,i)=>{el.classList.remove('rise');void el.offsetWidth;el.style.setProperty('--d',i);el.classList.add('rise');});}
+function renderKam(anim){if(!K.data)return;renderKamControls();renderKamHead();
+  const on=anim!==false;$('#kamSum').classList.toggle('anim',on);$('#kamTbl').classList.toggle('anim',on);
+  renderKamSum();renderKamList();if(anim){countUp($('#kamStats'));riseIn([...document.querySelectorAll('#kamStats .stat'),...document.querySelectorAll('#kamBody > .block')]);}}
 
 /* ---------- Chuyển trang ---------- */
 function setPage(p){
@@ -1033,7 +1063,7 @@ function setPage(p){
   $('#brandSub').textContent=S.page==='kam'?'Tổng hợp khách hàng KAM':'Theo dõi thưởng quý 4/2026';
   document.title=S.page==='kam'?'Trung tâm kinh doanh 3 | Tổng hợp khách hàng KAM':'Trung tâm kinh doanh 3 | Theo dõi thưởng quý 4/2026';
   if(S.page==='bonus'&&S.dirty&&S.staff.length)render();
-  if(S.page==='kam'&&!K.data&&!K.loading)loadKam();
+  if(S.page==='kam'){riseIn([...document.querySelectorAll('#pgKam > .block:not([hidden])')]);if(!K.data&&!K.loading)loadKam();}
 }
 
 function render(){
@@ -1049,7 +1079,7 @@ document.addEventListener('click',e=>{
   const b=e.target.closest('button');
   if(!b){
     const acc=e.target.closest('tr.acc');
-    if(acc){const k=acc.dataset.key;K.open.has(k)?K.open.delete(k):K.open.add(k);renderKamList();return;}
+    if(acc){const k=acc.dataset.key;K.open.has(k)?K.open.delete(k):K.open.add(k);$('#kamTbl').classList.remove('anim');renderKamList();return;}
     const lvr=e.target.closest('tr.lvrow');
     if(lvr){const n=lvr.dataset.lvname,key=K.lv==='dept'?'dept':K.lv==='team'?'team':'bc';K.f[key]=K.f[key]===n?'':n;K.limit=60;renderKam();
       document.querySelector('#kamTbl').closest('.block').scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1059,7 +1089,7 @@ document.addEventListener('click',e=>{
   else if(b.dataset.dept){S.dept=b.dataset.dept;render();}
   else if(b.dataset.period){S.period=b.dataset.period==='q'?'q':+b.dataset.period;render();}
   else if(b.dataset.clv){S.clv=b.dataset.clv;renderCommit();}
-  else if(b.dataset.klv){K.lv=b.dataset.klv;renderKamSum();}
+  else if(b.dataset.klv){K.lv=b.dataset.klv;$('#kamSum').classList.add('anim');renderKamSum();}
   else if(b.dataset.exp){K.f.exp=b.dataset.exp;K.limit=60;renderKam();}
   else if(b.id==='kamSwitch'){LS.set(KAM_KEY,'');K.data=null;K.open.clear();K.limit=60;K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:'next'};$('#kamEmail').value='';showGate('');$('#kamEmail').focus();}
   else if(b.id==='fClear'){K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:K.f.sort};K.limit=60;renderKam();}
