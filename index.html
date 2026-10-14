@@ -174,6 +174,72 @@ td.gapc strong{color:#fff;font-weight:600}
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);opacity:0;z-index:50;padding:11px 18px;border-radius:14px;background:rgba(22,32,106,.92);border:1px solid var(--edge2);font-size:14px;transition:.25s;max-width:90vw}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
+/* ---------- Điều hướng trang ---------- */
+.pages{margin-right:4px}
+[hidden]{display:none!important}
+
+/* ---------- Commit ---------- */
+.sumrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.stat{padding:14px 16px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid var(--edge)}
+.stat span{display:block;font-size:12.5px;color:var(--muted)}
+.stat b{display:block;margin-top:2px;font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,26px);line-height:1.15;font-variant-numeric:tabular-nums}
+.stat small{display:block;margin-top:2px;font-size:12px;color:var(--muted)}
+.stat.warn b{color:var(--gold)}.stat.bad b{color:#FF8FA3}.stat.ok b{color:#7FF0BE}
+td.mcell b{display:block;font-weight:600}
+td.mcell span{display:block;font-size:11.5px;color:var(--muted)}
+tr.lv-dept td{background:rgba(61,123,255,.10);font-weight:600}
+.dash{color:var(--dim)}
+.chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.08);border:1px solid var(--edge);color:var(--muted);white-space:nowrap}
+
+/* ---------- Trang KAM ---------- */
+.kam-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.kam-hero h1{margin:10px 0 0;font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,48px);line-height:1.08;letter-spacing:-.5px;
+  background:linear-gradient(95deg,#FFFFFF 0%,#DCEBFF 45%,#BBA9FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.viewer{min-width:240px;padding:12px 16px;border-radius:18px;background:rgba(10,18,80,.35);border:1px solid var(--edge)}
+.viewer span{display:block;font-size:12px;color:var(--muted)}
+.viewer b{display:block;font-size:14.5px;word-break:break-all}
+.viewer .chip{margin-top:6px}
+.viewer button{margin-top:8px}
+.kam-stats{margin:22px 0 0}
+.gate{max-width:560px}
+.gate form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.inp,.sel{height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--edge);background:rgba(10,18,80,.4);color:#fff;font:inherit;font-size:14px;color-scheme:dark;min-width:0}
+.inp::placeholder{color:var(--dim)}
+.inp:focus,.sel:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(111,182,255,.25)}
+.sel option{background:#1F2A86;color:#fff}
+.gate .inp{flex:1 1 260px}
+.btn.pri{border:0;background:linear-gradient(135deg,#3D7BFF,#7B6BFF);box-shadow:0 4px 14px rgba(61,123,255,.45)}
+.msg{margin-top:12px;font-size:13.5px;color:#FFB3C0}
+.filters{display:grid;grid-template-columns:2fr repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.filters2{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.filters2 label{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.filters2 .inp{height:36px;font-size:13.5px}
+.count{font-size:13px;color:var(--muted);margin:0 0 10px}
+.count b{color:#fff}
+tr.acc{cursor:pointer}
+tr.acc td:first-child{color:var(--dim)}
+.cust b{display:block;max-width:340px;overflow:hidden;text-overflow:ellipsis}
+.cust span{display:block;font-size:12px;color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;border:1px solid currentColor;background:rgba(255,255,255,.05)}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st.ok{color:#5FE3A6}.st.warn{color:#FFC94D}.st.bad{color:#FF8FA3}
+.mix{display:flex;gap:5px;flex-wrap:wrap}
+.caret{display:inline-block;transition:transform .2s;color:var(--muted)}
+tr.acc.open .caret{transform:rotate(90deg)}
+tr.apps>td{padding:0 10px 12px 44px;background:rgba(8,14,70,.25)}
+tr.apps table{font-size:13px}
+tr.apps th{border-bottom-color:var(--edge)}
+tr.lvrow{cursor:pointer}
+tr.lvrow.on td{background:rgba(111,182,255,.12)}
+.share{display:flex;align-items:center;gap:8px}
+.share .bar{width:90px}
+.more{display:flex;justify-content:center;margin-top:14px}
+.empty{padding:26px;text-align:center;color:var(--muted)}
+
+@media (max-width:980px){
+  .filters{grid-template-columns:1fr 1fr}
+  .filters .inp{grid-column:1/-1}
+}
 @media (max-width:980px){
   .hero-top,.hero-mid{grid-template-columns:1fr}
   .cd-label{text-align:left}
@@ -198,6 +264,11 @@ td.gapc strong{color:#fff;font-weight:600}
   .val b{font-size:15px}
   .tick span{font-size:10.5px}
   .rings{display:none}
+  .sumrow{grid-template-columns:1fr 1fr;gap:8px}
+  .stat{padding:12px}
+  .filters{grid-template-columns:1fr}
+  .viewer{width:100%}
+  .cust b{max-width:220px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -233,15 +304,33 @@ td.gapc strong{color:#fff;font-weight:600}
         <polygon points="23,1 45,13.5 45,36.5 23,49 1,36.5 1,13.5" fill="url(#bh)" stroke="rgba(255,255,255,.55)"/>
         <path d="M23 13C24.6 21.6 26.4 23.4 35 25C26.4 26.6 24.6 28.4 23 37C21.4 28.4 19.6 26.6 11 25C19.6 23.4 21.4 21.6 23 13Z" fill="#fff"/>
       </svg>
-      <div><b>Trung tâm kinh doanh 3</b><span>Theo dõi thưởng quý 4/2026</span></div>
+      <div><b>Trung tâm kinh doanh 3</b><span id="brandSub">Theo dõi thưởng quý 4/2026</span></div>
     </div>
     <div class="tools">
+      <div class="seg pages" id="pageSeg" role="group" aria-label="Chọn trang">
+        <button type="button" data-page="bonus" aria-pressed="true">Theo dõi thưởng</button>
+        <button type="button" data-page="kam" aria-pressed="false">Khách hàng KAM</button>
+      </div>
       <div class="seg" id="deptSeg" role="group" aria-label="Chọn phòng kinh doanh"></div>
       <span class="upd" id="upd"></span>
       <button class="btn" id="btnRefresh" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>Làm mới</button>
     </div>
   </header>
 
+  <main id="pgBonus">
+  <!-- Khối 1: Commit quý 4 -->
+  <article class="block" id="commitBlock">
+    <div class="block-head">
+      <div><h2>Commit quý 4</h2><p class="sub" id="commitSub">Số commit trong sheet "Commit toàn RC03" so với doanh thu đã đạt (DT Xét Performance).</p></div>
+      <div class="seg" id="commitSeg" role="group" aria-label="Chọn cấp tổng hợp commit">
+        <button type="button" data-clv="dept" aria-pressed="false">Theo phòng</button>
+        <button type="button" data-clv="team" aria-pressed="true">Theo team</button>
+        <button type="button" data-clv="person" aria-pressed="false">Theo cá nhân</button>
+      </div>
+    </div>
+    <div class="sumrow" id="commitSum"></div>
+    <div class="scroll"><table id="commitTbl"></table></div>
+  </article>
   <!-- Khối 1: Chiến dịch, đồng hồ, tiến độ doanh thu -->
   <article class="block hero">
     <div class="hero-top">
@@ -288,14 +377,73 @@ td.gapc strong{color:#fff;font-weight:600}
     <div class="scroll"><div class="heat" id="heat"></div></div>
   </article>
 
-  <!-- Khối 4: Bảng chi tiết -->
-  <article class="block">
-    <div class="block-head">
-      <div><h2>Bảng chi tiết từng người</h2><p class="sub" id="detailSub"></p></div>
-      <div class="seg periodSeg" role="group" aria-label="Chọn kỳ xem"></div>
+
+  </main>
+
+  <!-- ===================== Trang KAM ===================== -->
+  <main id="pgKam" hidden>
+    <article class="block">
+      <div class="kam-hero">
+        <div>
+          <span class="eyebrow"><svg viewBox="0 0 18 20"><polygon points="9,0 18,5 18,15 9,20 0,15 0,5" fill="#6FB6FF"/><path d="M9 5.5C9.6 8.8 10.2 9.4 13.5 10C10.2 10.6 9.6 11.2 9 14.5C8.4 11.2 7.8 10.6 4.5 10C7.8 9.4 8.4 8.8 9 5.5Z" fill="#fff"/></svg>Khách hàng KAM · Danh sách CSM</span>
+          <h1>TỔNG HỢP KHÁCH HÀNG KAM RC03</h1>
+        </div>
+        <div class="viewer" id="kamViewer" hidden></div>
+      </div>
+      <div class="sumrow kam-stats" id="kamStats" hidden></div>
+    </article>
+
+    <article class="block gate" id="kamGate" hidden>
+      <h2>Nhập email công ty để xem</h2>
+      <p class="sub">Mỗi người xem được khách hàng của mình; trưởng nhóm, quản lý xem được khách hàng của nhân sự mình phụ trách theo sheet Nhân sự.</p>
+      <form id="kamForm" autocomplete="on">
+        <input class="inp" id="kamEmail" type="email" name="email" placeholder="ten.ho@base.vn" required aria-label="Email công ty">
+        <button class="btn pri" type="submit">Xem danh sách</button>
+      </form>
+      <p class="msg" id="kamMsg" hidden></p>
+    </article>
+
+    <div id="kamBody" hidden>
+      <article class="block">
+        <div class="block-head">
+          <div><h2>Số account theo <span id="kamLvName">cá nhân</span></h2><p class="sub">Account đếm theo Primary ID. Bấm một dòng để lọc danh sách bên dưới.</p></div>
+          <div class="seg" id="kamLvSeg" role="group" aria-label="Chọn cấp tổng hợp">
+            <button type="button" data-klv="dept" aria-pressed="false">Theo phòng</button>
+            <button type="button" data-klv="team" aria-pressed="false">Theo team</button>
+            <button type="button" data-klv="bc" aria-pressed="true">Theo cá nhân</button>
+          </div>
+        </div>
+        <div class="scroll"><table id="kamSum"></table></div>
+      </article>
+
+      <article class="block">
+        <div class="block-head">
+          <div><h2>Danh sách account và hạn sử dụng ứng dụng</h2><p class="sub">Bấm vào một account để xem từng ứng dụng, ngày bắt đầu hợp đồng và ngày hết hạn.</p></div>
+        </div>
+        <div class="filters">
+          <input class="inp" id="fQ" type="search" placeholder="Tìm tên khách hàng, MST, Primary ID" aria-label="Tìm khách hàng">
+          <select class="sel" id="fDept" aria-label="Phòng"></select>
+          <select class="sel" id="fTeam" aria-label="Team"></select>
+          <select class="sel" id="fBc" aria-label="BC phụ trách"></select>
+          <select class="sel" id="fApp" aria-label="Ứng dụng"></select>
+        </div>
+        <div class="filters2">
+          <div class="seg" id="fExp" role="group" aria-label="Lọc theo thời gian hết hạn"></div>
+          <label>Hết hạn từ <input class="inp" id="fFrom" type="date"></label>
+          <label>đến <input class="inp" id="fTo" type="date"></label>
+          <select class="sel" id="fSort" aria-label="Sắp xếp" style="height:36px;font-size:13.5px">
+            <option value="next">Sắp xếp: hết hạn gần nhất</option>
+            <option value="name">Sắp xếp: tên khách hàng</option>
+            <option value="apps">Sắp xếp: nhiều ứng dụng nhất</option>
+          </select>
+          <button class="btn" type="button" id="fClear">Xóa lọc</button>
+        </div>
+        <p class="count" id="kamCount"></p>
+        <div class="scroll"><table id="kamTbl"></table></div>
+        <div class="more" id="kamMore" hidden><button class="btn" type="button">Xem thêm</button></div>
+      </article>
     </div>
-    <div class="scroll"><table id="detail"></table></div>
-  </article>
+  </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -314,7 +462,9 @@ const CONFIG = {
   DEPT_TARGETS: { all: 26e9, 'PKD 3.1 - BD Crew': 8.21e9, 'PKD 3.2 - Be.E': 14.2e9 },
   // Username không hiển thị trên dashboard
   EXCLUDE: ['tranma'],
-  REFRESH_MS: 60000
+  REFRESH_MS: 60000,
+  // Trang KAM: để trống thì dùng chung API_URL. Nếu triển khai riêng bản "Bất kỳ ai trong base.vn" thì dán URL đó vào đây.
+  KAM_API_URL: ''
 };
 
 /* Ảnh nhân sự (thư mục Google Drive, tên file = Username) */
@@ -326,13 +476,12 @@ const AVATARS = {
   hungphan:'16BDJusEFQneX8DATdZsohQaj5RWQotwh', phuongho:'1bWpL8cjjSCArpRP3w0fv5jm4MHlNZMCn', hatran02:'1LsZon5InfcvtXSkXWSYWQaE3A7Hr93HM'
 };
 
-/* Dữ liệu dự phòng (Google Sheet ngày 09/10/2026, cập nhật thêm hatran02), dùng khi chưa có API_URL */
+/* Dữ liệu dự phòng (Google Sheet ngày 14/10/2026), dùng khi chưa đọc được Apps Script */
 const SEED = {
   staff: [
     ["Lê Bảo Ngọc","Ngọc Lê","ngocle","SOLO - BE.E","PKD 3.2 - Be.E","Level 6",110e6,155e6,210e6,320e6],
     ["Nguyễn Hoàng My","My Nguyễn","hoangmy","SOLO - BE.E","PKD 3.2 - Be.E","Level 5",90e6,125e6,175e6,250e6],
     ["Võ Thành Luân","Luân Võ","luanvo","THE FOOLISH","PKD 3.2 - Be.E","Level 6",110e6,155e6,210e6,320e6],
-    ["Mã Quảng Trấn","Trấn Mã","tranma","THE FOOLISH","PKD 3.2 - Be.E","Level 2",0,60e6,90e6,120e6],
     ["Nguyễn Thị Thủy Ngân","Ngân Nguyễn 07","ngannguyen07","THE FOOLISH","PKD 3.2 - Be.E","Level 4",70e6,100e6,145e6,190e6],
     ["Nguyễn Oh Chang Suk","Suk Nguyễn","suknguyen","THE FOOLISH","PKD 3.2 - Be.E","Level 2",0,60e6,90e6,120e6],
     ["Đỗ Thị Thuý Vân","Vân Đỗ 02","vando02","THE FOOLISH","PKD 3.2 - Be.E","Level 2",0,60e6,90e6,120e6],
@@ -342,14 +491,48 @@ const SEED = {
     ["Nguyễn Hoàng Lam","Lam Nguyễn 04","lamnguyen04","SOLO - BD CREW","PKD 3.1 - BD Crew","Level 4",70e6,100e6,145e6,190e6],
     ["Lưu Phúc Trường","Trường Lưu","truongluu","The Game Changers","PKD 3.1 - BD Crew","Level 5",90e6,125e6,175e6,250e6],
     ["Nguyễn Thị Liên Thanh","Thanh Nguyễn 08","thanhnguyen08","The Game Changers","PKD 3.1 - BD Crew","Level 4",70e6,100e6,145e6,190e6],
-    ["Trần Chánh Nhật Hà","Hà Trần 02","hatran02","PRIME","PKD 3.1 - BD Crew","Level 5",90e6,125e6,175e6,250e6]
+    ["Nguyễn Thị Hương Thuyên","Thuyên Nguyễn","thuyennguyen","The Game Changers","PKD 3.1 - BD Crew","Level 1",0,50e6,80e6,110e6],
+    ["Nguyễn Phúc Thành","Thành Nguyễn 10","thanhnguyen10","The Game Changers","PKD 3.1 - BD Crew","Level 1",0,50e6,80e6,110e6],
+    ["Trần Chánh Nhật Hà","Hà Trần 02","hatran02","PRIME","PKD 3.1 - BD Crew","Level 5",90e6,125e6,175e6,250e6],
+    ["Phan Nguyên Hùng","Hùng Phan","hungphan","PRIME","PKD 3.1 - BD Crew","Level 3",60e6,80e6,110e6,160e6],
+    ["Hồ Thị Hoài Phương","Phương Hồ","phuongho","PRIME","PKD 3.1 - BD Crew","Level 2",0,60e6,90e6,120e6]
   ].map(r=>({fullName:r[0],name:r[1],username:r[2],team:r[3],dept:r[4],level:r[5],backup:r[6],kpi:r[7],goal:r[8],outperf:r[9],avatar:''})),
   deals: [
     ["luanvo","2026-10-01",12840000],["mynguyen08","2026-10-01",33180000],["hoangmy","2026-10-02",6300000],["ngocle","2026-10-03",102432000],
     ["hoangmy","2026-10-03",25608000],["ngocle","2026-10-05",19825400],["hoangmy","2026-10-05",8496600],["suknguyen","2026-10-06",25920000],
     ["kenphan","2026-10-06",26098200],["mynguyen08","2026-10-06",2899800],["truongluu","2026-10-08",25080000],["ngannguyen07","2026-10-09",50400000],
-    ["ngannguyen07","2026-10-09",121800000],["hatran02","2026-10-09",138000000]
-  ].map(r=>({owner:r[0],date:r[1],year:+r[1].slice(0,4),month:+r[1].slice(5,7),perf:r[2]}))
+    ["ngannguyen07","2026-10-09",121800000],["hatran02","2026-10-09",138000000],["luanvo","2026-10-12",512400000],["thanhnguyen08","2026-10-13",179928000],
+    ["phuongho","2026-10-13",119952000],["luanvo","2026-10-13",371520000],["ngannguyen07","2026-10-13",92880000]
+  ].map(r=>({owner:r[0],date:r[1],year:+r[1].slice(0,4),month:+r[1].slice(5,7),perf:r[2]})),
+  /* Sheet "Commit toàn RC03": tên, team, phòng, commit quý, tháng 10, 11, 12 */
+  commit: [
+    ["RC 03","","",22410e6,null,null,null],
+    ["PKD 3.1 - BD Crew","","",8210e6,null,null,null],
+    ["PKD 3.2 - Be.E","","",14500e6,3900e6,4800e6,5800e6],
+    ["PRIME","","",3300e6,630e6,1510e6,1160e6],
+    ["The Game Changers","","",2860e6,null,null,null],
+    ["SOLO - BD CREW","","",2000e6,null,null,null],
+    ["THE FOOLISH","","",3699995360,2499157760,546624800,654212800],
+    ["THE SHARKS","","",3450e6,820e6,910e6,1720e6],
+    ["SOLO - BE.E","","",6200e6,null,null,null],
+    ["hatran02","PRIME","PKD 3.1 - BD Crew",2300e6,270e6,1230e6,800e6],
+    ["hungphan","PRIME","PKD 3.1 - BD Crew",500e6,160e6,180e6,160e6],
+    ["phuongho","PRIME","PKD 3.1 - BD Crew",500e6,200e6,100e6,200e6],
+    ["truongluu","The Game Changers","PKD 3.1 - BD Crew",2000e6,660e6,670e6,670e6],
+    ["thanhnguyen08","The Game Changers","PKD 3.1 - BD Crew",600e6,200e6,200e6,200e6],
+    ["thanhnguyen10","The Game Changers","PKD 3.1 - BD Crew",150e6,null,null,null],
+    ["thuyennguyen","The Game Changers","PKD 3.1 - BD Crew",110e6,null,null,null],
+    ["cuc","SOLO - BD CREW","PKD 3.1 - BD Crew",1500e6,null,null,null],
+    ["lamnguyen04","SOLO - BD CREW","PKD 3.1 - BD Crew",500e6,null,null,null],
+    ["luanvo","THE FOOLISH","PKD 3.2 - Be.E",2321872000,1573803200,332996800,415072000],
+    ["ngannguyen07","THE FOOLISH","PKD 3.2 - Be.E",800e6,326e6,200e6,274e6],
+    ["suknguyen","THE FOOLISH","PKD 3.2 - Be.E",200e6,80e6,60e6,60e6],
+    ["vando02","THE FOOLISH","PKD 3.2 - Be.E",500e6,160e6,180e6,160e6],
+    ["kenphan","THE SHARKS","PKD 3.2 - Be.E",2700e6,700e6,750e6,1250e6],
+    ["mynguyen08","THE SHARKS","PKD 3.2 - Be.E",756500000,110e6,166e6,480500000],
+    ["ngocle","SOLO - BE.E","PKD 3.2 - Be.E",3500e6,1000e6,1200e6,1300e6],
+    ["hoangmy","SOLO - BE.E","PKD 3.2 - Be.E",2700e6,700e6,150e6,1850e6]
+  ].map((r,i)=>({name:r[0],team:r[1],dept:r[2],q:r[3],m:[r[4],r[5],r[6]],kind:i===0?'center':r[1]?'person':/^PKD/.test(r[0])?'dept':'team'}))
 };
 
 const TIERS=[
@@ -362,7 +545,7 @@ const TIERS=[
 const STAGES=[{at:0,name:'Xuất phát'},{at:.25,name:'Số hóa quy trình'},{at:.5,name:'Tự động hóa vận hành'},{at:.75,name:'AI Agent đồng hành'},{at:1,name:'Về đích'}];
 const AVA_BG=['linear-gradient(135deg,#3D7BFF,#7B6BFF)','linear-gradient(135deg,#7B6BFF,#C66BF0)','linear-gradient(135deg,#2FB8FF,#3D7BFF)','linear-gradient(135deg,#F06BD8,#8E7BFF)','linear-gradient(135deg,#39D98A,#2FB8FF)','linear-gradient(135deg,#FFB547,#F0708A)'];
 
-const S={staff:[],deals:[],factor:CONFIG.QUARTER_FACTOR,dept:'all',period:'q',updatedAt:null,first:true};
+const S={staff:[],deals:[],commit:[],factor:CONFIG.QUARTER_FACTOR,dept:'all',period:'q',clv:'team',page:'bonus',updatedAt:null,first:true};
 
 /* ---------- Tiện ích ---------- */
 const $=s=>document.querySelector(s);
@@ -423,12 +606,12 @@ function orbitHTML(i){
 function th(s,scope){const f=scope==='q'?S.factor:1;return[s.backup*f,s.kpi*f,s.goal*f,s.outperf*f];}
 function tierOf(v,t){let k=0;if(t[0]>0&&v>=t[0])k=1;if(t[1]>0&&v>=t[1])k=2;if(t[2]>0&&v>=t[2])k=3;if(t[3]>0&&v>=t[3])k=4;return k;}
 function nextTier(v,t){for(let i=0;i<4;i++)if(t[i]>0&&v<t[i])return{tier:TIERS[i+1],gap:t[i]-v};return null;}
-function compute(){
+function allRows(){
   const by={};S.staff.forEach(s=>by[s.username]={m:{10:0,11:0,12:0},q:0});
   S.deals.forEach(d=>{if(d.year!==CONFIG.YEAR||!CONFIG.MONTHS.includes(d.month))return;const r=by[d.owner];if(!r)return;r.m[d.month]+=+d.perf||0;r.q+=+d.perf||0;});
-  const rows=S.staff.filter(s=>!CONFIG.EXCLUDE.includes(String(s.username).toLowerCase())).map((s,i)=>({...s,idx:i,...by[s.username]}));
-  return S.dept==='all'?rows:rows.filter(r=>r.dept===S.dept);
+  return S.staff.filter(s=>!CONFIG.EXCLUDE.includes(String(s.username).toLowerCase())).map((s,i)=>({...s,idx:i,...by[s.username]}));
 }
+function compute(){const rows=allRows();return S.dept==='all'?rows:rows.filter(r=>r.dept===S.dept);}
 const scopeOf=()=>S.period==='q'?'q':'month';
 const valOf=r=>S.period==='q'?r.q:r.m[S.period];
 const periodName=()=>S.period==='q'?'cả quý 4':'tháng '+S.period;
@@ -453,14 +636,14 @@ async function getData(){
 async function load(manual){
   const btn=$('#btnRefresh');btn.classList.add('spin');
   try{
-    if(!CONFIG.API_URL){S.staff=SEED.staff;S.deals=SEED.deals;}
+    if(!CONFIG.API_URL){S.staff=SEED.staff;S.deals=SEED.deals;S.commit=SEED.commit;}
     else{
       const j=await getData();
       if(!j.ok)throw new Error(j.error||'Lỗi không rõ');
-      S.staff=j.staff;S.deals=j.deals;if(j.config&&+j.config.quarterFactor)S.factor=+j.config.quarterFactor;
+      S.staff=j.staff;S.deals=j.deals;S.commit=(j.commit&&j.commit.length)?j.commit:SEED.commit;if(j.config&&+j.config.quarterFactor)S.factor=+j.config.quarterFactor;
     }
     S.updatedAt=new Date();render();if(manual)toast('Đã cập nhật dữ liệu mới nhất.');
-  }catch(e){console.error(e);if(!S.staff.length){S.staff=SEED.staff;S.deals=SEED.deals;render();}toast('Chưa tải được dữ liệu từ Google Sheet. Thử bấm Làm mới sau ít phút.');}
+  }catch(e){console.error(e);if(!S.staff.length){S.staff=SEED.staff;S.deals=SEED.deals;S.commit=SEED.commit;render();}toast('Chưa tải được dữ liệu từ Google Sheet. Thử bấm Làm mới sau ít phút.');}
   finally{btn.classList.remove('spin');}
 }
 
@@ -608,46 +791,280 @@ function renderHeat(rows){
   $('#heat').innerHTML=h;
 }
 
-/* ---------- Khối 4: bảng chi tiết ---------- */
-function renderDetail(rows){
-  const sc=scopeOf();
-  $('#detailSub').textContent=S.period==='q'?`Lũy kế quý 4, mốc quý bằng mốc tháng nhân ${S.factor}. Sắp xếp theo % KPI.`:`Số liệu tháng ${S.period}. Sắp xếp theo % KPI.`;
-  const d=rows.map(r=>{const t=th(r,sc),v=valOf(r);return{r,t,v,k:tierOf(v,t),p:t[1]?v/t[1]*100:0,nx:nextTier(v,t)};}).sort((a,b)=>b.p-a.p||b.v-a.v);
-  const showMonths=S.period==='q';
-  $('#detail').innerHTML=`<thead><tr><th>#</th><th>Thành viên</th><th>Nhóm</th><th>Level</th>
-    <th class="num">Back up</th><th class="num">KPI</th><th class="num">Goal</th><th class="num">Out Perf</th>
-    ${showMonths?CONFIG.MONTHS.map(m=>`<th class="num">T${m}</th>`).join(''):''}
-    <th class="num">Doanh thu ${periodName()}</th><th>% KPI</th><th>Mốc đạt</th><th>Cần thêm</th></tr></thead><tbody>${
-    d.map((x,i)=>`<tr><td>${i+1}</td><td><div class="who">${avaHTML(x.r,'sm')}<div class="who-txt"><b>${esc(x.r.name)}</b><span>${esc(x.r.fullName||'')}</span></div></div></td>
-      <td>${esc(x.r.team)}</td><td>${esc(x.r.level)}</td>${x.t.map(v=>`<td class="num">${v?money(v):'–'}</td>`).join('')}
-      ${showMonths?CONFIG.MONTHS.map(m=>`<td class="num">${money(x.r.m[m])}</td>`).join(''):''}
-      <td class="num"><b>${vnd(x.v)}</b></td>
-      <td><div class="mini"><div class="bar"><i style="width:${Math.min(100,x.p)}%;background:${x.k?TIERS[x.k].color:'#AAB6F0'}"></i></div>${pctTxt(x.p)}</div></td>
-      <td><span class="tag" style="color:${TIERS[x.k].color}">${TIERS[x.k].name}</span></td>
-      <td class="gapc">${x.nx?`<strong>${money(x.nx.gap)}</strong> lên ${x.nx.tier.short}`:'Đã chạm mốc cao nhất'}</td></tr>`).join('')}</tbody>`;
+/* ---------- Khối 5: commit quý 4 ---------- */
+const nk=s=>String(s??'').replace(/\s+/g,' ').trim().toLowerCase();
+function commitModel(){
+  const rows=allRows(),cm=curMonth();
+  const people=S.commit.filter(c=>c.kind==='person');
+  const staffBy={};rows.forEach(r=>staffBy[nk(r.username)]=r);
+  S.staff.forEach(s=>{if(!staffBy[nk(s.username)])staffBy[nk(s.username)]={...s,q:0,m:{10:0,11:0,12:0},idx:0};});
+  const sumRev=list=>{const o={q:0,m:{}};CONFIG.MONTHS.forEach(m=>o.m[m]=0);list.forEach(r=>{o.q+=r.q||0;CONFIG.MONTHS.forEach(m=>o.m[m]+=(r.m&&r.m[m])||0);});return o;};
+  const sumCm=(list,i)=>{const v=list.map(p=>p.m[i]).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0):null;};
+  const deptOfTeam={};people.forEach(p=>{if(p.team&&p.dept)deptOfTeam[nk(p.team)]=p.dept;});rows.forEach(r=>{if(!deptOfTeam[nk(r.team)])deptOfTeam[nk(r.team)]=r.dept;});
+  return S.commit.map(c=>{
+    let members,revList,dept='',team='',who=null;
+    if(c.kind==='person'){who=staffBy[nk(c.name)];revList=who?[who]:[];members=[c];dept=c.dept||(who&&who.dept)||'';team=c.team||(who&&who.team)||'';}
+    else if(c.kind==='team'){members=people.filter(p=>nk(p.team)===nk(c.name));revList=rows.filter(r=>nk(r.team)===nk(c.name));team=c.name;dept=deptOfTeam[nk(c.name)]||'';}
+    else if(c.kind==='dept'){members=people.filter(p=>nk(p.dept)===nk(c.name));revList=rows.filter(r=>nk(r.dept)===nk(c.name));dept=c.name;}
+    else{members=people;revList=rows;}
+    const rev=sumRev(revList);
+    const mc=CONFIG.MONTHS.map((m,i)=>c.m&&c.m[i]!=null?c.m[i]:(c.kind==='person'?null:sumCm(members,i)));
+    const q=c.q!=null?c.q:mc.reduce((a,b)=>a+(b||0),0);
+    return{...c,dept,team,who,commitQ:q,commitM:mc,rev,pct:q?rev.q/q*100:0,started:CONFIG.MONTHS.map(m=>Date.now()>=monthStart(m)),cm};
+  });
+}
+function pctColor(p){return p>=100?'#39D98A':p>=70?'#4FD1FF':p>=40?'#FFC94D':'#A9B8F5';}
+function renderCommit(){
+  const all=commitModel();
+  const QS=new Date(CONFIG.QUARTER_START).getTime(),QE=new Date(CONFIG.QUARTER_END).getTime(),tp=Math.max(0,Math.min(1,(Date.now()-QS)/(QE-QS)))*100;
+  const head=S.dept==='all'?all.find(x=>x.kind==='center'):all.find(x=>x.kind==='dept'&&nk(x.name)===nk(S.dept));
+  const scopeName=S.dept==='all'?'Trung tâm kinh doanh 3':S.dept;
+  if(head){
+    const gap=Math.max(0,head.commitQ-head.rev.q);
+    $('#commitSum').innerHTML=`<div class="stat"><span>Commit quý 4 · ${esc(scopeName)}</span><b>${money(head.commitQ)}</b><small>${vnd(head.commitQ)}</small></div>
+      <div class="stat"><span>Đã đạt</span><b>${money(head.rev.q)}</b><small>${vnd(head.rev.q)}</small></div>
+      <div class="stat ${head.pct>=tp?'ok':'warn'}"><span>Hoàn thành commit</span><b>${pctTxt(head.pct)}</b><small>Thời gian quý đã qua ${pctTxt(tp)}</small></div>
+      <div class="stat"><span>Còn thiếu so với commit</span><b>${money(gap)}</b><small>${gap?'Cần thêm để chạm commit':'Đã chạm commit'}</small></div>
+      ${(()=>{const cm=curMonth(),j=CONFIG.MONTHS.indexOf(cm),c=head.commitM[j],v=head.rev.m[cm];return `<div class="stat ${c&&v>=c?'ok':''}"><span>Tháng ${cm} (hiện tại)</span><b>${money(v)}</b><small>${c!=null?`Commit tháng ${money(c)} · đạt ${pctTxt(c?v/c*100:0)}`:'Chưa có commit tháng'}</small></div>`;})()}`;
+  }else $('#commitSum').innerHTML='';
+  document.querySelectorAll('#commitSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.clv===S.clv)));
+  let list=all.filter(x=>x.kind===S.clv);
+  if(S.dept!=='all')list=list.filter(x=>nk(x.dept)===nk(S.dept));
+  if(S.clv==='person')list.sort((a,b)=>b.pct-a.pct||b.rev.q-a.rev.q);
+  const extra=S.clv==='team'?'<th>Phòng</th>':S.clv==='person'?'<th>Team</th>':'';
+  const mHead=CONFIG.MONTHS.map(m=>`<th class="num">Tháng ${m}${m===curMonth()?' (hiện tại)':''}<br><span style="font-weight:500">đạt / commit</span></th>`).join('');
+  const body=list.map((x,i)=>{
+    const nameCell=x.kind==='person'
+      ?`<div class="who">${avaHTML(x.who||{username:x.name,name:x.name},'sm')}<div class="who-txt"><b>${esc(x.who?x.who.name:x.name)}</b><span>${esc(x.name)}</span></div></div>`
+      :`<b>${esc(x.name)}</b>`;
+    const ex=S.clv==='team'?`<td>${esc(x.dept)||'<span class="dash">–</span>'}</td>`:S.clv==='person'?`<td>${esc(x.team)}</td>`:'';
+    const gap=Math.max(0,x.commitQ-x.rev.q);
+    const months=CONFIG.MONTHS.map((m,j)=>{const c=x.commitM[j],v=x.rev.m[m];
+      if(!x.started[j])return `<td class="num mcell"><b class="dash">Sắp tới</b><span>/ ${c!=null?money(c):'–'}</span></td>`;
+      const p=c?v/c*100:null;
+      return `<td class="num mcell"><b>${money(v)}</b><span>/ ${c!=null?money(c):'–'}${p!=null?` · <span style="color:${pctColor(p)};display:inline">${pctTxt(p)}</span>`:''}</span></td>`;}).join('');
+    return `<tr class="${x.kind==='dept'?'lv-dept':''}"><td>${i+1}</td><td>${nameCell}</td>${ex}
+      <td class="num"><b>${x.commitQ?money(x.commitQ):'–'}</b></td><td class="num">${money(x.rev.q)}</td>
+      <td><div class="mini"><div class="bar"><i style="width:${Math.min(100,x.pct)}%;background:${pctColor(x.pct)}"></i></div>${pctTxt(x.pct)}</div></td>
+      <td class="num gapc">${gap?`<strong>${money(gap)}</strong>`:'Đã chạm'}</td>${months}</tr>`;}).join('');
+  $('#commitTbl').innerHTML=`<thead><tr><th>#</th><th>${S.clv==='dept'?'Phòng':S.clv==='team'?'Team':'Thành viên'}</th>${extra}
+    <th class="num">Commit quý 4</th><th class="num">Đã đạt</th><th>% đạt commit</th><th class="num">Còn thiếu</th>${mHead}</tr></thead>
+    <tbody>${body||`<tr><td colspan="12" class="empty">Chưa có số commit cho phạm vi này.</td></tr>`}</tbody>`;
+}
+
+/* ===================== Trang TỔNG HỢP KHÁCH HÀNG KAM ===================== */
+const KAM_KEY='rc03_kam_email';
+const LS={get(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}},set(k,v){try{v?localStorage.setItem(k,v):localStorage.removeItem(k);}catch(e){}}};
+const K={data:null,lv:'bc',limit:60,open:new Set(),loading:false,
+  f:{q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:'next'}};
+const EXP=[['all','Tất cả'],['bad','Đã hết hạn'],['d30','Trong 30 ngày'],['d60','31–60 ngày'],['d90','61–90 ngày'],['over','Trên 90 ngày']];
+const ST_NAME={ok:'Còn hạn',warn:'Sắp hết hạn',bad:'Đã hết hạn',none:'Chưa có ngày'};
+const pad=n=>String(n).padStart(2,'0');
+function todayISO(){const n=vnNow();return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;}
+const dayDiff=(a,b)=>Math.round((Date.parse(a+'T00:00:00Z')-Date.parse(b+'T00:00:00Z'))/864e5);
+const stOf=d=>d==null?'none':d<0?'bad':d<=90?'warn':'ok';
+const fmtD=iso=>iso?`${iso.slice(8,10)}/${iso.slice(5,7)}/${iso.slice(0,4)}`:'–';
+const fold=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase();
+const staffByName=n=>S.staff.find(s=>nk(s.name)===nk(n));
+
+async function kamGet(email){
+  const base=CONFIG.KAM_API_URL||CONFIG.API_URL;
+  const u=base+'?action=kam&email='+encodeURIComponent(email||'')+'&t='+Date.now();
+  try{const r=await fetch(u);return await r.json();}catch(e){return await jsonp(u,30000);}
+}
+function showGate(msg){
+  $('#kamGate').hidden=false;$('#kamBody').hidden=true;$('#kamStats').hidden=true;$('#kamViewer').hidden=true;
+  const m=$('#kamMsg');m.hidden=!msg;m.textContent=msg||'';
+  if(!$('#kamEmail').value)$('#kamEmail').value=LS.get(KAM_KEY);
+}
+async function loadKam(email,manual){
+  if(!(CONFIG.KAM_API_URL||CONFIG.API_URL)){showGate('Chưa cấu hình đường dẫn Apps Script.');return;}
+  email=String(email??LS.get(KAM_KEY)).trim().toLowerCase();
+  K.loading=true;const btn=$('#btnRefresh');btn.classList.add('spin');
+  $('#kamCount').textContent='Đang tải danh sách…';
+  try{
+    const j=await kamGet(email);
+    if(!j.ok){
+      if(j.code==='NO_ACCESS')LS.set(KAM_KEY,'');
+      showGate(j.code==='NO_EMAIL'?(email?'Chưa xác định được email, vui lòng nhập lại.':''):(j.error||'Không đọc được dữ liệu.'));return;
+    }
+    LS.set(KAM_KEY,j.viewer);
+    const today=todayISO();
+    j.accounts.forEach(a=>{a.key=a.id+'|'+a.bc;a.apps=a.apps.map(([app,start,end])=>{const days=end?dayDiff(end,today):null;return{app,start,end,days,st:stOf(days)};});});
+    K.data=j;K.updatedAt=new Date();
+    $('#kamGate').hidden=true;$('#kamBody').hidden=false;$('#kamStats').hidden=false;$('#kamViewer').hidden=false;
+    renderKam();if(manual)toast('Đã cập nhật danh sách khách hàng.');
+  }catch(e){console.error(e);showGate('Chưa tải được danh sách CSM từ Google Sheet. Thử lại sau ít phút.');}
+  finally{K.loading=false;btn.classList.remove('spin');}
+}
+
+function appPass(x){
+  const f=K.f;
+  if(f.app&&x.app!==f.app)return false;
+  const d=x.days;
+  if(f.exp!=='all'){
+    if(d==null)return false;
+    if(f.exp==='bad'&&!(d<0))return false;
+    if(f.exp==='d30'&&!(d>=0&&d<=30))return false;
+    if(f.exp==='d60'&&!(d>30&&d<=60))return false;
+    if(f.exp==='d90'&&!(d>60&&d<=90))return false;
+    if(f.exp==='over'&&!(d>90))return false;
+  }
+  if(f.from&&!(x.end&&x.end>=f.from))return false;
+  if(f.to&&!(x.end&&x.end<=f.to))return false;
+  return true;
+}
+function kamFiltered(){
+  const f=K.f,q=fold(f.q).trim();
+  const out=[];
+  K.data.accounts.forEach(a=>{
+    if(f.dept&&a.dept!==f.dept)return;
+    if(f.team&&a.team!==f.team)return;
+    if(f.bc&&a.bc!==f.bc)return;
+    if(q&&!fold(a.name+' '+a.mst+' '+a.id).includes(q))return;
+    const fa=a.apps.filter(appPass);
+    if(!fa.length)return;
+    const up=fa.filter(x=>x.days!=null&&x.days>=0).sort((x,y)=>x.days-y.days)[0];
+    const last=fa.filter(x=>x.days!=null).sort((x,y)=>y.days-x.days)[0];
+    out.push({...a,fa,next:up||last||null,sortKey:up?up.days:(last?1e6-last.days:2e6)});
+  });
+  const s=f.sort;
+  out.sort(s==='name'?(x,y)=>x.name.localeCompare(y.name,'vi'):s==='apps'?(x,y)=>y.fa.length-x.fa.length:(x,y)=>x.sortKey-y.sortKey);
+  return out;
+}
+function countSt(apps){const c={ok:0,warn:0,bad:0,none:0};apps.forEach(x=>c[x.st]++);return c;}
+function mixHTML(c){return `<div class="mix">${['bad','warn','ok'].filter(k=>c[k]).map(k=>`<span class="st ${k}">${c[k]} ${ST_NAME[k].toLowerCase()}</span>`).join('')}</div>`;}
+
+function fillSelect(id,label,vals,cur){
+  const el=$(id);el.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}"${v===cur?' selected':''}>${esc(v)}</option>`).join('');
+}
+function renderKamControls(){
+  const A=K.data.accounts,f=K.f;
+  const uniq=a=>[...new Set(a.filter(Boolean))].sort((x,y)=>x.localeCompare(y,'vi'));
+  const depts=uniq(A.map(a=>a.dept));if(f.dept&&!depts.includes(f.dept))f.dept='';
+  const teams=uniq(A.filter(a=>!f.dept||a.dept===f.dept).map(a=>a.team));if(f.team&&!teams.includes(f.team))f.team='';
+  const bcs=uniq(A.filter(a=>(!f.dept||a.dept===f.dept)&&(!f.team||a.team===f.team)).map(a=>a.bc));if(f.bc&&!bcs.includes(f.bc))f.bc='';
+  const apps=uniq(A.flatMap(a=>a.apps.map(x=>x.app)));
+  fillSelect('#fDept','Tất cả phòng',depts,f.dept);fillSelect('#fTeam','Tất cả team',teams,f.team);
+  fillSelect('#fBc','Tất cả BC',bcs,f.bc);fillSelect('#fApp','Tất cả ứng dụng',apps,f.app);
+  $('#fExp').innerHTML=EXP.map(([v,l])=>`<button type="button" data-exp="${v}" aria-pressed="${f.exp===v}">${l}</button>`).join('');
+  if($('#fQ').value!==f.q)$('#fQ').value=f.q;
+  $('#fFrom').value=f.from;$('#fTo').value=f.to;$('#fSort').value=f.sort;
+}
+function renderKamHead(){
+  const j=K.data,A=j.accounts,apps=A.flatMap(a=>a.apps);
+  const ids=new Set(A.map(a=>a.id)),c=countSt(apps);
+  const accWith=st=>new Set(A.filter(a=>a.apps.some(x=>x.st===st)).map(a=>a.id)).size;
+  const d30=apps.filter(x=>x.days!=null&&x.days>=0&&x.days<=30).length;
+  $('#kamViewer').innerHTML=`<span>Đang xem với email</span><b>${esc(j.viewer)}</b><span class="chip">${esc(j.role)}${j.name?' · '+esc(j.name):''}</span><br>
+    <button class="btn" type="button" id="kamSwitch">Đổi email</button>`;
+  $('#kamStats').innerHTML=`<div class="stat"><span>Account</span><b>${nf.format(ids.size)}</b><small>Đếm theo Primary ID</small></div>
+    <div class="stat"><span>Ứng dụng đang theo dõi</span><b>${nf.format(apps.length)}</b><small>${nf.format(c.ok)} còn hạn trên 90 ngày</small></div>
+    <div class="stat warn"><span>Hết hạn trong 90 ngày tới</span><b>${nf.format(c.warn)}</b><small>${nf.format(accWith('warn'))} account · ${nf.format(d30)} ứng dụng trong 30 ngày</small></div>
+    <div class="stat bad"><span>Đã hết hạn</span><b>${nf.format(c.bad)}</b><small>${nf.format(accWith('bad'))} account có ứng dụng hết hạn</small></div>`;
+}
+function renderKamSum(){
+  const A=K.data.accounts,lv=K.lv;
+  $('#kamLvName').textContent=lv==='dept'?'phòng':lv==='team'?'team':'cá nhân';
+  document.querySelectorAll('#kamLvSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.klv===lv)));
+  const g={};
+  A.forEach(a=>{const k=a[lv]||'Chưa xác định';const o=g[k]||(g[k]={name:k,dept:a.dept,team:a.team,ids:new Set(),apps:[],bcs:new Set()});o.ids.add(a.id);o.apps.push(...a.apps);o.bcs.add(a.bc);});
+  const total=new Set(A.map(a=>a.id)).size||1;
+  const list=Object.values(g).sort((x,y)=>y.ids.size-x.ids.size||x.name.localeCompare(y.name,'vi'));
+  const cur=lv==='dept'?K.f.dept:lv==='team'?K.f.team:K.f.bc;
+  const extra=lv==='team'?'<th>Phòng</th>':lv==='bc'?'<th>Team</th><th>Phòng</th>':'<th class="num">Số BC</th>';
+  const rows=list.map((o,i)=>{const c=countSt(o.apps),s=staffByName(o.name);
+    const nameCell=lv==='bc'?`<div class="who">${avaHTML(s||{username:o.name,name:o.name},'sm')}<div class="who-txt"><b>${esc(o.name)}</b>${s?`<span>${esc(s.level||'')}</span>`:''}</div></div>`:`<b>${esc(o.name)}</b>`;
+    const ex=lv==='team'?`<td>${esc(o.dept)}</td>`:lv==='bc'?`<td>${esc(o.team)}</td><td>${esc(o.dept)}</td>`:`<td class="num">${o.bcs.size}</td>`;
+    return `<tr class="lvrow ${cur===o.name?'on':''}" data-lvname="${esc(o.name)}" title="Bấm để lọc danh sách theo ${esc(o.name)}"><td>${i+1}</td><td>${nameCell}</td>${ex}
+      <td class="num"><b>${nf.format(o.ids.size)}</b></td><td class="num">${nf.format(o.apps.length)}</td>
+      <td class="num" style="color:#5FE3A6">${nf.format(c.ok)}</td><td class="num" style="color:#FFC94D">${nf.format(c.warn)}</td><td class="num" style="color:#FF8FA3">${nf.format(c.bad)}</td>
+      <td><div class="share"><div class="bar"><i style="width:${o.ids.size/total*100}%;background:linear-gradient(90deg,#3D7BFF,#8FE1FF)"></i></div>${pctTxt(o.ids.size/total*100)}</div></td></tr>`;}).join('');
+  const all=A.flatMap(a=>a.apps),c=countSt(all);
+  $('#kamSum').innerHTML=`<thead><tr><th>#</th><th>${lv==='dept'?'Phòng':lv==='team'?'Team':'BC phụ trách'}</th>${extra}<th class="num">Account</th><th class="num">Ứng dụng</th>
+    <th class="num">Còn hạn</th><th class="num">Sắp hết hạn<br><span style="font-weight:500">≤ 90 ngày</span></th><th class="num">Đã hết hạn</th><th>Tỷ trọng account</th></tr></thead>
+    <tbody>${rows}<tr><td></td><td><b>Tổng</b></td>${lv==='bc'?'<td></td><td></td>':'<td></td>'}<td class="num"><b>${nf.format(new Set(A.map(a=>a.id)).size)}</b></td><td class="num"><b>${nf.format(all.length)}</b></td>
+    <td class="num">${nf.format(c.ok)}</td><td class="num">${nf.format(c.warn)}</td><td class="num">${nf.format(c.bad)}</td><td></td></tr></tbody>`;
+}
+function renderKamList(){
+  const list=kamFiltered(),shown=list.slice(0,K.limit);
+  const nApps=list.reduce((a,x)=>a+x.fa.length,0),nIds=new Set(list.map(x=>x.id)).size;
+  $('#kamCount').innerHTML=`Hiển thị <b>${nf.format(nIds)}</b> account · <b>${nf.format(nApps)}</b> ứng dụng khớp bộ lọc${list.length>shown.length?` (đang hiện ${shown.length} dòng đầu)`:''}.`;
+  const rows=shown.map((a,i)=>{
+    const open=K.open.has(a.key),s=staffByName(a.bc),n=a.next;
+    const sub=open?`<tr class="apps"><td colspan="7"><table><thead><tr><th>Ứng dụng</th><th>Bắt đầu HĐ gần nhất</th><th>Ngày hết hạn</th><th class="num">Còn lại</th><th>Trạng thái</th></tr></thead><tbody>${
+      [...a.fa].sort((x,y)=>(x.end||'9').localeCompare(y.end||'9')).map(x=>`<tr><td>${esc(x.app)}</td><td>${fmtD(x.start)}</td><td>${fmtD(x.end)}</td>
+        <td class="num">${x.days==null?'–':x.days<0?`quá ${nf.format(-x.days)} ngày`:`${nf.format(x.days)} ngày`}</td><td><span class="st ${x.st}">${ST_NAME[x.st]}</span></td></tr>`).join('')}</tbody></table></td></tr>`:'';
+    return `<tr class="acc ${open?'open':''}" data-key="${esc(a.key)}" aria-expanded="${open}"><td><span class="caret">▸</span> ${i+1}</td>
+      <td class="cust"><b title="${esc(a.name)}">${esc(a.name)}</b><span>MST ${esc(a.mst||a.id)}</span></td>
+      <td><div class="who">${avaHTML(s||{username:a.bc,name:a.bc},'sm')}<div class="who-txt"><b>${esc(a.bc)}</b><span>${esc(a.team)}</span></div></div></td>
+      <td class="num">${a.fa.length}${a.fa.length!==a.apps.length?`<span class="dash"> / ${a.apps.length}</span>`:''}</td>
+      <td>${n?fmtD(n.end):'–'}</td>
+      <td class="num">${n?(n.days<0?`quá ${nf.format(-n.days)} ngày`:`${nf.format(n.days)} ngày`):'–'}</td>
+      <td>${mixHTML(countSt(a.fa))}</td></tr>${sub}`;}).join('');
+  $('#kamTbl').innerHTML=`<thead><tr><th>#</th><th>Khách hàng</th><th>BC phụ trách</th><th class="num">Ứng dụng</th><th>Hết hạn gần nhất</th><th class="num">Còn lại</th><th>Tình trạng ứng dụng</th></tr></thead>
+    <tbody>${rows||'<tr><td colspan="7" class="empty">Không có account nào khớp bộ lọc.</td></tr>'}</tbody>`;
+  $('#kamMore').hidden=list.length<=K.limit;
+}
+function renderKam(){if(!K.data)return;renderKamControls();renderKamHead();renderKamSum();renderKamList();}
+
+/* ---------- Chuyển trang ---------- */
+function setPage(p){
+  S.page=p==='kam'?'kam':'bonus';
+  $('#pgBonus').hidden=S.page!=='bonus';$('#pgKam').hidden=S.page!=='kam';
+  $('#deptSeg').hidden=S.page!=='bonus';
+  document.querySelectorAll('#pageSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.page===S.page)));
+  $('#brandSub').textContent=S.page==='kam'?'Tổng hợp khách hàng KAM':'Theo dõi thưởng quý 4/2026';
+  document.title=S.page==='kam'?'Trung tâm kinh doanh 3 | Tổng hợp khách hàng KAM':'Trung tâm kinh doanh 3 | Theo dõi thưởng quý 4/2026';
+  if(S.page==='bonus'&&S.dirty&&S.staff.length)render();
+  if(S.page==='kam'&&!K.data&&!K.loading)loadKam();
 }
 
 function render(){
+  if(S.page!=='bonus'){S.dirty=true;return;}
+  S.dirty=false;
   const rows=compute();
-  renderControls();renderHero(rows);renderRace(rows);renderHeat(rows);renderDetail(rows);
+  renderControls();renderCommit();renderHero(rows);renderRace(rows);renderHeat(rows);
   S.first=false;
 }
 
 /* ---------- Sự kiện ---------- */
 document.addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.dept){S.dept=b.dataset.dept;render();}
+  const b=e.target.closest('button');
+  if(!b){
+    const acc=e.target.closest('tr.acc');
+    if(acc){const k=acc.dataset.key;K.open.has(k)?K.open.delete(k):K.open.add(k);renderKamList();return;}
+    const lvr=e.target.closest('tr.lvrow');
+    if(lvr){const n=lvr.dataset.lvname,key=K.lv==='dept'?'dept':K.lv==='team'?'team':'bc';K.f[key]=K.f[key]===n?'':n;K.limit=60;renderKam();
+      document.querySelector('#kamTbl').closest('.block').scrollIntoView({behavior:'smooth',block:'start'});}
+    return;
+  }
+  if(b.dataset.page){location.hash=b.dataset.page==='kam'?'kam':'';setPage(b.dataset.page);}
+  else if(b.dataset.dept){S.dept=b.dataset.dept;render();}
   else if(b.dataset.period){S.period=b.dataset.period==='q'?'q':+b.dataset.period;render();}
+  else if(b.dataset.clv){S.clv=b.dataset.clv;renderCommit();}
+  else if(b.dataset.klv){K.lv=b.dataset.klv;renderKamSum();}
+  else if(b.dataset.exp){K.f.exp=b.dataset.exp;K.limit=60;renderKam();}
+  else if(b.id==='kamSwitch'){LS.set(KAM_KEY,'');K.data=null;K.open.clear();K.limit=60;K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:'next'};$('#kamEmail').value='';showGate('');$('#kamEmail').focus();}
+  else if(b.id==='fClear'){K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:K.f.sort};K.limit=60;renderKam();}
+  else if(b.closest('#kamMore')){K.limit+=60;renderKamList();}
 });
-$('#btnRefresh').onclick=()=>load(true);
+$('#btnRefresh').onclick=()=>S.page==='kam'?loadKam(undefined,true):load(true);
+$('#kamForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#kamEmail').value.trim().toLowerCase();if(v)loadKam(v,false);});
+let qT;
+$('#fQ').addEventListener('input',e=>{clearTimeout(qT);qT=setTimeout(()=>{K.f.q=e.target.value;K.limit=60;if(K.data)renderKamList();},180);});
+[['#fDept','dept'],['#fTeam','team'],['#fBc','bc'],['#fApp','app'],['#fFrom','from'],['#fTo','to'],['#fSort','sort']].forEach(([id,k])=>
+  $(id).addEventListener('change',e=>{K.f[k]=e.target.value;K.limit=60;if(K.data)renderKam();}));
+window.addEventListener('hashchange',()=>setPage(location.hash==='#kam'?'kam':'bonus'));
 
 /* Hạt sáng lấp lánh nền */
 (function(){let s='';for(let i=0;i<38;i++){const x=(i*397)%1600,y=(i*233)%900;s+=`<circle class="tw" cx="${x}" cy="${y}" r="${(i%3)*.6+.8}" fill="#fff" style="animation-delay:${-(i*0.7)%5}s;animation-duration:${4+(i%4)}s"/>`;}document.getElementById('twinkles').innerHTML=s;})();
 
 buildJourney();tick();setInterval(tick,1000);
+setPage(location.hash==='#kam'?'kam':'bonus');
 load();
 if(CONFIG.API_URL)setInterval(()=>{if(!document.hidden)load();},CONFIG.REFRESH_MS);
-setInterval(()=>{if(S.staff.length)renderHero(compute());},60000);
+setInterval(()=>{if(S.staff.length&&S.page==='bonus')renderHero(compute());},60000);
 </script>
 </body>
 </html>
