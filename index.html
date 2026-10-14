@@ -318,19 +318,6 @@ tr.lvrow.on td{background:rgba(111,182,255,.12)}
   </header>
 
   <main id="pgBonus">
-  <!-- Khối 1: Commit quý 4 -->
-  <article class="block" id="commitBlock">
-    <div class="block-head">
-      <div><h2>Commit quý 4</h2><p class="sub" id="commitSub">Số commit trong sheet "Commit toàn RC03" so với doanh thu đã đạt (DT Xét Performance).</p></div>
-      <div class="seg" id="commitSeg" role="group" aria-label="Chọn cấp tổng hợp commit">
-        <button type="button" data-clv="dept" aria-pressed="false">Theo phòng</button>
-        <button type="button" data-clv="team" aria-pressed="true">Theo team</button>
-        <button type="button" data-clv="person" aria-pressed="false">Theo cá nhân</button>
-      </div>
-    </div>
-    <div class="sumrow" id="commitSum"></div>
-    <div class="scroll"><table id="commitTbl"></table></div>
-  </article>
   <!-- Khối 1: Chiến dịch, đồng hồ, tiến độ doanh thu -->
   <article class="block hero">
     <div class="hero-top">
@@ -359,6 +346,19 @@ tr.lvrow.on td{background:rgba(111,182,255,.12)}
     <svg class="journey" id="journey" viewBox="0 0 1200 360" role="img" aria-label="Hành trình chuyển đổi số theo doanh thu của trung tâm"></svg>
   </article>
 
+  <!-- Khối 1: Commit quý 4 -->
+  <article class="block" id="commitBlock">
+    <div class="block-head">
+      <div><h2>Commit quý 4</h2><p class="sub" id="commitSub">Số commit lấy nguyên từ sheet "Commit toàn RC03" so với doanh thu đã đạt (DT Xét Performance). Commit toàn trung tâm cố định theo dòng RC 03, không phải tổng các phòng/team.</p></div>
+      <div class="seg" id="commitSeg" role="group" aria-label="Chọn cấp tổng hợp commit">
+        <button type="button" data-clv="dept" aria-pressed="false">Theo phòng</button>
+        <button type="button" data-clv="team" aria-pressed="true">Theo team</button>
+        <button type="button" data-clv="person" aria-pressed="false">Theo cá nhân</button>
+      </div>
+    </div>
+    <div class="sumrow" id="commitSum"></div>
+    <div class="scroll"><table id="commitTbl"></table></div>
+  </article>
   <!-- Khối 2: Đường đua -->
   <article class="block">
     <div class="block-head">
@@ -366,7 +366,7 @@ tr.lvrow.on td{background:rgba(111,182,255,.12)}
       <div class="seg periodSeg" role="group" aria-label="Chọn kỳ xem"></div>
     </div>
     <div class="lanes" id="race"></div>
-    <div class="legend"><span><i style="background:var(--t-backup)"></i>Back up</span><span><i style="background:var(--t-kpi)"></i>KPI</span><span><i style="background:var(--t-goal)"></i>Goal</span><span><i style="background:var(--t-out)"></i>Out Performance</span></div>
+    <div class="legend" id="raceLegend"><span><i style="background:var(--t-backup)"></i>Back up</span><span><i style="background:var(--t-kpi)"></i>KPI</span><span><i style="background:var(--t-goal)"></i>Goal</span><span><i style="background:var(--t-out)"></i>Out Performance</span></div>
   </article>
 
   <!-- Khối 3: Tỷ lệ hoàn thành -->
@@ -459,7 +459,7 @@ const CONFIG = {
   QUARTER_END: '2026-12-31T23:59:59+07:00',
   QUARTER_FACTOR: 3,      // mốc quý cá nhân = mốc tháng x 3
   // KPI quý 4 của trung tâm và từng phòng (tên phòng phải trùng cột "Phòng kinh doanh")
-  DEPT_TARGETS: { all: 26e9, 'PKD 3.1 - BD Crew': 8.21e9, 'PKD 3.2 - Be.E': 14.2e9 },
+  DEPT_TARGETS: { all: 22.41e9, 'PKD 3.1 - BD Crew': 8.21e9, 'PKD 3.2 - Be.E': 14.5e9 }, // dự phòng; số chính lấy từ sheet Commit toàn RC03
   // Username không hiển thị trên dashboard
   EXCLUDE: ['tranma'],
   REFRESH_MS: 60000,
@@ -603,7 +603,15 @@ function orbitHTML(i){
 }
 
 /* ---------- Tính toán mốc ---------- */
-function th(s,scope){const f=scope==='q'?S.factor:1;return[s.backup*f,s.kpi*f,s.goal*f,s.outperf*f];}
+/* Commit quý của cá nhân (sheet "Commit toàn RC03") */
+function commitOf(u){const k=String(u||'').trim().toLowerCase();const c=S.commit.find(x=>x.kind==='person'&&String(x.name).trim().toLowerCase()===k);return c&&+c.q>0?+c.q:0;}
+/* Mốc tháng: Back up / KPI / Goal / Out theo Level.
+   Mốc quý: chỉ một mốc là commit quý cá nhân (cột "Quý 4 - Commit" sheet Commit toàn RC03).
+   Người chưa có commit thì lấy KPI tháng x 3 làm mốc quý. */
+function th(s,scope){
+  if(scope!=='q')return[s.backup,s.kpi,s.goal,s.outperf];
+  return[0,commitOf(s.username)||s.kpi*S.factor,0,0];
+}
 function tierOf(v,t){let k=0;if(t[0]>0&&v>=t[0])k=1;if(t[1]>0&&v>=t[1])k=2;if(t[2]>0&&v>=t[2])k=3;if(t[3]>0&&v>=t[3])k=4;return k;}
 function nextTier(v,t){for(let i=0;i<4;i++)if(t[i]>0&&v<t[i])return{tier:TIERS[i+1],gap:t[i]-v};return null;}
 function allRows(){
@@ -656,6 +664,11 @@ function renderControls(){
   $('#upd').textContent=S.updatedAt?`Cập nhật lúc ${S.updatedAt.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}`:'';
 }
 
+/* Chỉ tiêu quý lấy từ sheet Commit: toàn trung tâm = dòng "RC 03" (cố định, không cộng từ phòng/team) */
+function commitTarget(dept){
+  const c=dept==='all'?S.commit.find(x=>x.kind==='center'):S.commit.find(x=>x.kind==='dept'&&nk(x.name)===nk(dept));
+  return c&&c.q?+c.q:0;
+}
 /* ---------- Khối 1: hành trình ---------- */
 function buildJourney(){
   const docs=[[48,96,-12],[100,70,8],[150,122,-5],[66,166,14],[200,86,-15],[134,190,6],[222,154,10]].map(([x,y,r])=>
@@ -720,7 +733,7 @@ function buildJourney(){
 let heroAnim=null;
 function renderHero(rows){
   const rev=rows.reduce((a,r)=>a+r.q,0);
-  const target=CONFIG.DEPT_TARGETS[S.dept]||rows.reduce((a,r)=>a+th(r,'q')[1],0);
+  const target=commitTarget(S.dept)||CONFIG.DEPT_TARGETS[S.dept]||rows.reduce((a,r)=>a+th(r,'q')[1],0);
   const pct=target?rev/target:0;
   const who=S.dept==='all'?'Trung tâm kinh doanh 3':S.dept;
   $('#heroRev').textContent=money(rev);$('#heroVnd').textContent=vnd(rev);
@@ -753,26 +766,28 @@ function tick(){
 
 /* ---------- Khối 2: đường đua ---------- */
 function laneHTML(r,rank){
-  const sc=scopeOf(),t=th(r,sc),v=valOf(r),max=t[3]*1.1||1,k=tierOf(v,t),col=TIERS[k].color,pos=Math.min(100,v/max*100),kp=t[1]?v/t[1]*100:0,nx=nextTier(v,t);
-  const marks=t.map((x,i)=>x>0?`<div class="mk" style="left:${x/max*100}%">${hexRing(v>=x?100:0,TIERS[i+1].color,{vb:'0 0 36 40',cx:18,cy:20,r:17,sw:2,fill:v>=x?.9:.7,fillColor:v>=x?TIERS[i+1].color:'#1C2780'})}<b style="color:${v>=x?'#10195A':TIERS[i+1].color}">${Math.round(x/t[1]*100)}%</b><span>${TIERS[i+1].short}</span></div>`:'').join('');
+  const sc=scopeOf(),t=th(r,sc),v=valOf(r),max=Math.max(...t)*(sc==='q'?1.15:1.1)||1,k=tierOf(v,t),col=TIERS[k].color,pos=Math.min(100,v/max*100),kp=t[1]?v/t[1]*100:0,nx=nextTier(v,t);
+  const marks=t.map((x,i)=>x>0?`<div class="mk" style="left:${x/max*100}%">${hexRing(v>=x?100:0,TIERS[i+1].color,{vb:'0 0 36 40',cx:18,cy:20,r:17,sw:2,fill:v>=x?.9:.7,fillColor:v>=x?TIERS[i+1].color:'#1C2780'})}<b style="color:${v>=x?'#10195A':TIERS[i+1].color}">${Math.round(x/t[1]*100)}%</b><span>${sc==='q'&&i===1?'Commit':TIERS[i+1].short}</span></div>`:'').join('');
   return `<div class="lane">
     <div class="who"><span class="rank ${rank<=3&&v>0?'top':''}">${rank}</span>${avaHTML(r,'sm')}<div class="who-txt"><b>${esc(r.name)}</b><span>${esc(r.team)}, ${esc(r.level)}</span></div></div>
-    <div class="track" aria-label="${esc(r.name)} đạt ${pctTxt(kp)} KPI ${periodName()}">
+    <div class="track" aria-label="${esc(r.name)} đạt ${pctTxt(kp)} ${sc==='q'?'commit':'KPI'} ${periodName()}">
       <div class="rail"></div><div class="rail-fill" style="width:${pos}%;background:linear-gradient(90deg,rgba(255,255,255,0),${col});box-shadow:0 0 10px ${col}"></div>
       ${marks}
       <div class="racer" style="left:${pos}%">${orbitHTML(r.idx)}${avaHTML(r)}</div>
     </div>
-    <div class="val"><b>${money(v)}</b><span class="p">${pctTxt(kp)} KPI</span><br><span class="tag" style="color:${col}">${TIERS[k].name}</span>
-      ${nx?`<span class="gap">Còn <strong>${money(nx.gap)}</strong> lên ${nx.tier.short}</span>`:'<span class="gap">Đã chạm mốc cao nhất</span>'}</div>
+    <div class="val"><b>${money(v)}</b><span class="p">${pctTxt(kp)} ${sc==='q'?'commit':'KPI'}</span><br><span class="tag" style="color:${col}">${sc==='q'&&k===2?'Đạt commit':TIERS[k].name}</span>
+      ${nx?`<span class="gap">Còn <strong>${money(nx.gap)}</strong> lên ${sc==='q'&&nx.tier.short==='KPI'?'Commit':nx.tier.short}</span>`:`<span class="gap">${sc==='q'?`Vượt commit <strong>${money(v-t[1])}</strong>`:'Đã chạm mốc cao nhất'}</span>`}</div>
   </div>`;
 }
 function renderRace(rows){
   const sorted=[...rows].sort((a,b)=>{const ka=th(a,scopeOf())[1]||1,kb=th(b,scopeOf())[1]||1;return valOf(b)/kb-valOf(a)/ka||valOf(b)-valOf(a);});
   $('#raceTitle').textContent=S.period==='q'?'Đường đua quý 4':`Đường đua tháng ${S.period}`;
   $('#raceSub').textContent=S.period==='q'
-    ?`Cộng dồn tháng 10 đến 12. Mốc quý bằng mốc tháng nhân ${S.factor}. Lục giác trên làn ghi mốc theo % KPI, sáng lên khi đã vượt qua.`
+    ?`Doanh thu cộng dồn tháng 10 đến 12 so với commit quý của từng người (cột Quý 4 - Commit, sheet Commit toàn RC03). Lục giác sáng lên khi đã chạm commit.`
     :`Doanh thu tháng ${S.period} so với mốc tháng theo Level. Lục giác trên làn ghi mốc theo % KPI, sáng lên khi đã vượt qua.`;
   $('#race').innerHTML=sorted.map((r,i)=>laneHTML(r,i+1)).join('');
+  $('#raceLegend').innerHTML=S.period==='q'?'<span><i style="background:var(--t-kpi)"></i>Commit quý 4</span>'
+    :'<span><i style="background:var(--t-backup)"></i>Back up</span><span><i style="background:var(--t-kpi)"></i>KPI</span><span><i style="background:var(--t-goal)"></i>Goal</span><span><i style="background:var(--t-out)"></i>Out Performance</span>';
 }
 
 /* ---------- Khối 3: tỷ lệ hoàn thành ---------- */
@@ -888,6 +903,7 @@ async function loadKam(email,manual){
       if(j.code==='NO_ACCESS')LS.set(KAM_KEY,'');
       showGate(j.code==='NO_EMAIL'?(email?'Chưa xác định được email, vui lòng nhập lại.':''):(j.error||'Không đọc được dữ liệu.'));return;
     }
+    if(!Array.isArray(j.accounts)){showGate('Apps Script đang chạy bản cũ, chưa có dữ liệu CSM. Cần dán Code.gs mới và triển khai phiên bản mới.');return;}
     LS.set(KAM_KEY,j.viewer);
     const today=todayISO();
     j.accounts.forEach(a=>{a.key=a.id+'|'+a.bc;a.apps=a.apps.map(([app,start,end])=>{const days=end?dayDiff(end,today):null;return{app,start,end,days,st:stOf(days)};});});
