@@ -430,14 +430,13 @@ tr.apps>td>table{animation:dropIn .35s cubic-bezier(.2,.8,.2,1) both}
   <!-- Khối 5: Giải thưởng theo chính sách -->
   <article class="block" id="awardBlock">
     <div class="block-head">
-      <div><h2>Giải thưởng chính sách quý IV/2026</h2><p class="sub" id="awSub"></p></div>
+      <div><h2>Giải thưởng chính sách quý IV/2026</h2></div>
       <div class="seg" id="awSeg" role="group" aria-label="Chọn kỳ xét thưởng"></div>
     </div>
     <div class="sumrow" id="awSum"></div>
     <div class="scroll"><table id="awTbl" class="awtbl"></table></div>
-    <h3 class="aw-h3">Tổng thưởng tạm tính theo người</h3>
+    <h3 class="aw-h3">Tổng thưởng dự kiến theo cá nhân</h3>
     <div class="scroll"><table id="awPeople"></table></div>
-    <p class="aw-note">Tính tự động từ cột DT Xét Performance, Payment_date, Revenue_type (New Sales) và số deal (theo Deal_id) trong sheet Data. Junior = Level 1–4. Các hạng mục theo gói giải pháp (New Sales Base 2.0, Agentic Account) cần dữ liệu gói nên chưa tính ở đây. Kết quả chính thức do bộ phận Vận hành RC03 công bố.</p>
   </article>
   </main>
 
@@ -1150,7 +1149,7 @@ function periodState(m){
   if(m==='q'){const QS=new Date(CONFIG.QUARTER_START).getTime(),QE=new Date(CONFIG.QUARTER_END).getTime();return now<QS?'soon':now>QE?'done':'live';}
   const s=monthStart(m),e=m===12?new Date(CONFIG.QUARTER_END).getTime():monthStart(m+1);return now<s?'soon':now>=e?'done':'live';
 }
-const ST_TXT={live:'Tạm tính',done:'Đã kết thúc, chờ công bố',soon:'Sắp tới'};
+const ST_TXT={live:'Dự kiến',done:'Đã kết thúc, chờ công bố',soon:'Sắp tới'};
 function topOf(list,val){const mx=Math.max(0,...list.map(val));return mx>0?list.filter(x=>val(x)===mx):[];}
 function winChip(p,amt,note){return `<span class="win">${avaHTML(p,'sm')}<span><b>${esc(p.name)}</b><small>${note}</small></span><em>+${nf.format(amt)}</em></span>`;}
 function teamChip(name,amt,note){return `<span class="win team"><span><b>${esc(name)}</b><small>${note}</small></span><em>+${nf.format(amt)}</em></span>`;}
@@ -1183,7 +1182,7 @@ function awardsFor(period,M){
     const tl=Object.values(teams);
     const tw=tl.map(t=>{const x=TEAM_MS.find(([th])=>t.v>=th);return x?{t,amt:x[1],th:x[0]}:null;}).filter(Boolean);
     const nt=tl.filter(t=>t.v<5e8).sort((a,b)=>b.v-a.v)[0];
-    add({name:'BC Team Milestone Marker',who:'Nhóm kinh doanh',cond:['Doanh thu nhóm trong tháng đạt cột mốc','Mỗi nhóm nhận ở mức cao nhất đạt được'],amt:['500 triệu: 500.000','1 tỷ: 1.500.000','1,5 tỷ: 2.500.000','2 tỷ: 4.000.000'],
+    add({name:'BC Team Milestone Marker',who:'Team kinh doanh',cond:['Doanh thu team trong tháng đạt cột mốc','Mỗi team nhận ở mức cao nhất đạt được'],amt:['500 triệu: 500.000','1 tỷ: 1.500.000','1,5 tỷ: 2.500.000','2 tỷ: 4.000.000'],
       teamWins:tw.map(x=>({name:x.t.name,amt:x.amt,note:`${money(x.t.v)} · mốc ${money(x.th)}`})),
       near:nt&&nt.v>0?`Gần nhất: <strong>${esc(nt.name)}</strong> ${money(nt.v)}, còn ${money(5e8-nt.v)} lên mốc 500 triệu`:''});
   }else{
@@ -1222,20 +1221,19 @@ function renderAwards(){
   const M=awModel(),st=periodState(AW.period);
   const list=st==='soon'?awardsFor(AW.period,{people:M.people.map(p=>({...p})),hasType:M.hasType}).map(a=>({...a,wins:[],teamWins:[],near:''})):awardsFor(AW.period,M);
   const pname=AW.period==='q'?'quý IV':'tháng '+AW.period;
-  $('#awSub').textContent=st==='soon'?`Kỳ ${pname} chưa bắt đầu. Bảng dưới là các hạng mục và điều kiện.`:`Kết quả ${ST_TXT[st].toLowerCase()} cho ${pname}, cập nhật theo doanh thu trong sheet.`;
   let total=0,awarded=0;const recv=new Set();
   list.forEach(a=>{const w=(a.wins||[]).length+(a.teamWins||[]).length;if(w)awarded++;(a.wins||[]).forEach(x=>{total+=x.amt;recv.add(x.p.username);});(a.teamWins||[]).forEach(x=>{total+=x.amt;recv.add('T:'+x.name);});});
-  $('#awSum').innerHTML=`<div class="stat warn"><span>Tổng thưởng ${ST_TXT[st]==='Sắp tới'?'':'tạm tính '}${pname}</span><b>${vnd(total)}</b><small>${ST_TXT[st]}</small></div>
-    <div class="stat"><span>Hạng mục đã có người đạt</span><b>${awarded} / ${list.length}</b><small>Theo chính sách CS-RC03-SALES-01</small></div>
-    <div class="stat"><span>Cá nhân / nhóm nhận thưởng</span><b>${recv.size}</b><small>${AW.period==='q'?'Giải quý':'Giải tháng và thưởng nóng'}</small></div>`;
-  $('#awTbl').innerHTML=`<thead><tr><th>Hạng mục</th><th>Điều kiện</th><th>Mức thưởng (VNĐ)</th><th>Người / nhóm đạt</th><th>Trạng thái</th></tr></thead><tbody>${
+  $('#awSum').innerHTML=`<div class="stat warn"><span>Tổng thưởng ${st==='soon'?'':'dự kiến '}${pname}</span><b>${vnd(total)}</b><small>${ST_TXT[st]}</small></div>
+    <div class="stat"><span>Hạng mục đã có cá nhân / team đạt</span><b>${awarded} / ${list.length}</b></div>
+    <div class="stat"><span>Cá nhân / team nhận thưởng</span><b>${recv.size}</b><small>${AW.period==='q'?'Giải quý':'Giải tháng và thưởng nóng'}</small></div>`;
+  $('#awTbl').innerHTML=`<thead><tr><th>Hạng mục</th><th>Điều kiện</th><th>Mức thưởng (VNĐ)</th><th>Cá nhân / team đạt</th><th>Trạng thái</th></tr></thead><tbody>${
     list.map(a=>{const ws=[...(a.wins||[]).map(x=>winChip(x.p,x.amt,x.note)),...(a.teamWins||[]).map(x=>teamChip(x.name,x.amt,x.note))];
       const s=st==='soon'?'soon':ws.length?st:'none';
       return `${a.grp?`<tr class="grp"><td colspan="5">${esc(a.grp)}</td></tr>`:''}<tr>
       <td class="aw-name"><b>${esc(a.name)}</b><span>${esc(a.who)}</span></td>
       <td class="aw-cond"><ul>${a.cond.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></td>
       <td class="aw-amt">${a.amt.map(x=>`<div>${esc(x)}</div>`).join('')}</td>
-      <td class="aw-win">${ws.length?`<div class="winners">${ws.join('')}</div>`:`<span class="near">${st==='soon'?'Chưa bắt đầu':a.warn?esc(a.warn):'Chưa có người đạt'}${a.near?'<br>'+a.near:''}</span>`}</td>
+      <td class="aw-win">${ws.length?`<div class="winners">${ws.join('')}</div>`:`<span class="near">${st==='soon'?'Chưa bắt đầu':a.warn?esc(a.warn):'Chưa có cá nhân / team đạt'}${a.near?'<br>'+a.near:''}</span>`}</td>
       <td><span class="awst ${s}">${s==='none'?'Chưa đạt':ST_TXT[s]}</span></td></tr>`;}).join('')}</tbody>`;
   // Tổng theo người: các tháng + quý
   const cols=[...CONFIG.MONTHS,'q'],sum={},tsum={};
@@ -1244,10 +1242,10 @@ function renderAwards(){
   const tot=o=>cols.reduce((a,c)=>a+(o.v[c]||0),0);
   const pr=Object.values(sum).sort((a,b)=>tot(b)-tot(a)),tr=Object.values(tsum).sort((a,b)=>tot(b)-tot(a));
   const cell=v=>v?`<td class="num money-hi">${nf.format(v)}</td>`:'<td class="num dash">–</td>';
-  $('#awPeople').innerHTML=`<thead><tr><th>#</th><th>Cá nhân / nhóm</th>${CONFIG.MONTHS.map(m=>`<th class="num">Tháng ${m}</th>`).join('')}<th class="num">Giải quý</th><th class="num">Tổng (VNĐ)</th></tr></thead><tbody>${
+  $('#awPeople').innerHTML=`<thead><tr><th>#</th><th>Cá nhân / team</th>${CONFIG.MONTHS.map(m=>`<th class="num">Tháng ${m}</th>`).join('')}<th class="num">Giải quý</th><th class="num">Tổng (VNĐ)</th></tr></thead><tbody>${
     pr.length+tr.length?[...pr.map((o,i)=>`<tr><td>${i+1}</td><td><div class="who">${avaHTML(o.p,'sm')}<div class="who-txt"><b>${esc(o.p.name)}</b><span>${esc(o.p.team)}</span></div></div></td>${cols.map(c=>cell(o.v[c])).join('')}<td class="num"><b>${vnd(tot(o))}</b></td></tr>`),
-      ...tr.map((o,i)=>`<tr><td>${pr.length+i+1}</td><td><b>${esc(o.name)}</b><span class="chip" style="margin-left:6px">Nhóm / phòng</span></td>${cols.map(c=>cell(o.v[c])).join('')}<td class="num"><b>${vnd(tot(o))}</b></td></tr>`)].join('')
-    :`<tr><td colspan="7" class="empty">Chưa có ai đạt giải.</td></tr>`}</tbody>`;
+      ...tr.map((o,i)=>`<tr><td>${pr.length+i+1}</td><td><b>${esc(o.name)}</b><span class="chip" style="margin-left:6px">Team / phòng</span></td>${cols.map(c=>cell(o.v[c])).join('')}<td class="num"><b>${vnd(tot(o))}</b></td></tr>`)].join('')
+    :`<tr><td colspan="7" class="empty">Chưa có cá nhân / team đạt giải.</td></tr>`}</tbody>`;
 }
 
 function render(){
