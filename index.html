@@ -191,6 +191,33 @@ tr.lv-dept td{background:rgba(61,123,255,.10);font-weight:600}
 .dash{color:var(--dim)}
 .chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.08);border:1px solid var(--edge);color:var(--muted);white-space:nowrap}
 
+
+/* ---------- Giải thưởng ---------- */
+.awtbl td{white-space:normal;vertical-align:top}
+.awtbl td.aw-name{min-width:190px}
+.awtbl td.aw-name b{display:block;font-family:var(--display);font-weight:600;font-size:14.5px}
+.awtbl td.aw-name span{display:block;font-size:12px;color:var(--muted)}
+.awtbl td.aw-cond{min-width:240px;max-width:340px;font-size:12.5px;color:var(--muted)}
+.awtbl td.aw-cond ul{margin:0;padding-left:16px}
+.awtbl td.aw-amt{white-space:nowrap;font-size:12.5px}
+.awtbl td.aw-amt div{white-space:nowrap}
+.awtbl td.aw-win{min-width:300px}
+.awtbl tr.grp td{background:rgba(61,123,255,.12);font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.3px;color:var(--ice)}
+.winners{display:flex;flex-wrap:wrap;gap:8px}
+.win{display:inline-flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border-radius:14px;background:rgba(255,201,77,.10);border:1px solid rgba(255,201,77,.45)}
+.win .ava.sm{width:28px;height:31px;font-size:10.5px}
+.win b{display:block;font-size:13px;line-height:1.2}
+.win small{display:block;font-size:11.5px;color:var(--muted);line-height:1.2}
+.win em{font-style:normal;font-weight:700;color:var(--gold);font-size:12.5px;margin-left:2px;white-space:nowrap}
+.win.team{background:rgba(111,182,255,.10);border-color:rgba(111,182,255,.45)}
+.near{font-size:12.5px;color:var(--muted)}
+.near strong{color:#fff;font-weight:600}
+.awst{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;border:1px solid currentColor}
+.awst.live{color:#4FD1FF}.awst.done{color:#5FE3A6}.awst.soon{color:var(--dim)}.awst.none{color:var(--muted)}
+.aw-h3{margin:24px 0 10px;font-family:var(--display);font-weight:600;font-size:17px}
+.aw-note{margin:14px 0 0;font-size:12.5px;color:var(--dim);max-width:110ch}
+td.money-hi{color:var(--gold);font-weight:700}
+
 /* ---------- Trang KAM ---------- */
 .kam-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .kam-hero h1{margin:10px 0 0;font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,48px);line-height:1.08;letter-spacing:-.5px;
@@ -399,6 +426,19 @@ tr.apps>td>table{animation:dropIn .35s cubic-bezier(.2,.8,.2,1) both}
   </article>
 
 
+
+  <!-- Khối 5: Giải thưởng theo chính sách -->
+  <article class="block" id="awardBlock">
+    <div class="block-head">
+      <div><h2>Giải thưởng chính sách quý IV/2026</h2><p class="sub" id="awSub"></p></div>
+      <div class="seg" id="awSeg" role="group" aria-label="Chọn kỳ xét thưởng"></div>
+    </div>
+    <div class="sumrow" id="awSum"></div>
+    <div class="scroll"><table id="awTbl" class="awtbl"></table></div>
+    <h3 class="aw-h3">Tổng thưởng tạm tính theo người</h3>
+    <div class="scroll"><table id="awPeople"></table></div>
+    <p class="aw-note">Tính tự động từ cột DT Xét Performance, Payment_date, Revenue_type (New Sales) và số deal (theo Deal_id) trong sheet Data. Junior = Level 1–4. Các hạng mục theo gói giải pháp (New Sales Base 2.0, Agentic Account) cần dữ liệu gói nên chưa tính ở đây. Kết quả chính thức do bộ phận Vận hành RC03 công bố.</p>
+  </article>
   </main>
 
   <!-- ===================== Trang KAM ===================== -->
@@ -473,7 +513,7 @@ tr.apps>td>table{animation:dropIn .35s cubic-bezier(.2,.8,.2,1) both}
    CẤU HÌNH: dán URL Web App của Apps Script vào API_URL sau khi triển khai.
    ===================================================================== */
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbyqBD0gpPPuOBjCsQKEeX1q9y5HI06mOWTi8rYQ04cvdQuY9jwVFQtk6_aYXaKUsVol/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbyYiKyeD05u3ZgVQ9gLC8b66IqaPEXHZ514844408O7Ms-KeqsFszNW65WIBdpzME3t/exec',
   YEAR: 2026,
   MONTHS: [10, 11, 12],
   QUARTER_START: '2026-10-01T00:00:00+07:00',
@@ -497,7 +537,7 @@ const AVATARS = {
   hungphan:'16BDJusEFQneX8DATdZsohQaj5RWQotwh', phuongho:'1bWpL8cjjSCArpRP3w0fv5jm4MHlNZMCn', hatran02:'1LsZon5InfcvtXSkXWSYWQaE3A7Hr93HM'
 };
 
-/* Dữ liệu dự phòng (Google Sheet ngày 14/10/2026), dùng khi chưa đọc được Apps Script */
+/* Dữ liệu dự phòng (Google Sheet ngày 20/10/2026), dùng khi chưa đọc được Apps Script */
 const SEED = {
   staff: [
     ["Lê Bảo Ngọc","Ngọc Lê","ngocle","SOLO - BE.E","PKD 3.2 - Be.E","Level 6",110e6,155e6,210e6,320e6],
@@ -518,13 +558,30 @@ const SEED = {
     ["Phan Nguyên Hùng","Hùng Phan","hungphan","PRIME","PKD 3.1 - BD Crew","Level 3",60e6,80e6,110e6,160e6],
     ["Hồ Thị Hoài Phương","Phương Hồ","phuongho","PRIME","PKD 3.1 - BD Crew","Level 2",0,60e6,90e6,120e6]
   ].map(r=>({fullName:r[0],name:r[1],username:r[2],team:r[3],dept:r[4],level:r[5],backup:r[6],kpi:r[7],goal:r[8],outperf:r[9],avatar:''})),
-  deals: [
-    ["luanvo","2026-10-01",12840000],["mynguyen08","2026-10-01",33180000],["hoangmy","2026-10-02",6300000],["ngocle","2026-10-03",102432000],
-    ["hoangmy","2026-10-03",25608000],["ngocle","2026-10-05",19825400],["hoangmy","2026-10-05",8496600],["suknguyen","2026-10-06",25920000],
-    ["kenphan","2026-10-06",26098200],["mynguyen08","2026-10-06",2899800],["truongluu","2026-10-08",25080000],["ngannguyen07","2026-10-09",50400000],
-    ["ngannguyen07","2026-10-09",121800000],["hatran02","2026-10-09",138000000],["luanvo","2026-10-12",512400000],["thanhnguyen08","2026-10-13",179928000],
-    ["phuongho","2026-10-13",119952000],["luanvo","2026-10-13",371520000],["ngannguyen07","2026-10-13",92880000]
-  ].map(r=>({owner:r[0],date:r[1],year:+r[1].slice(0,4),month:+r[1].slice(5,7),perf:r[2]})),
+  deals: [ /* BC Owner, Payment_date, DT Xét Performance, Revenue_type, mã deal */
+    ["luanvo", "2026-10-01", 12840000, "Expansion (CSM)", "1099716"],
+    ["mynguyen08", "2026-10-01", 33180000, "Up Sales", "1061950"],
+    ["hoangmy", "2026-10-02", 6300000, "", "0304826239"],
+    ["ngocle", "2026-10-03", 102432000, "", "3301644331"],
+    ["hoangmy", "2026-10-03", 25608000, "", "3301644331"],
+    ["ngocle", "2026-10-05", 19825400, "Expansion (CSM)", "1116130"],
+    ["hoangmy", "2026-10-05", 8496600, "Expansion (CSM)", "2923524"],
+    ["suknguyen", "2026-10-06", 25920000, "New Sales", "1088881"],
+    ["kenphan", "2026-10-06", 26098200, "Expansion (CSM)", "1129009"],
+    ["mynguyen08", "2026-10-06", 2899800, "Expansion (CSM)", "2966111"],
+    ["truongluu", "2026-10-08", 25080000, "Up Sales", "1117127"],
+    ["ngannguyen07", "2026-10-09", 50400000, "New Sales", "1002290"],
+    ["ngannguyen07", "2026-10-09", 121800000, "New Sales", "1002290"],
+    ["hatran02", "2026-10-09", 138000000, "Up Sales", "1154132"],
+    ["luanvo", "2026-10-12", 512400000, "Renew (CSM)", "541413"],
+    ["thanhnguyen08", "2026-10-13", 179928000, "Renew", "914653"],
+    ["phuongho", "2026-10-13", 119952000, "Renew", "3068909"],
+    ["luanvo", "2026-10-13", 371520000, "Renew (CSM)", "1066392"],
+    ["ngannguyen07", "2026-10-13", 92880000, "Renew (CSM)", "1140896"],
+    ["ngannguyen07", "2026-10-15", 79590000, "New Sales", "1164654"],
+    ["vando02", "2026-10-15", 34110000, "New Sales", "1164654"],
+    ["cuc", "2026-10-16", 63520000, "", "420271"]
+  ].map(r=>({owner:r[0],date:r[1],year:+r[1].slice(0,4),month:+r[1].slice(5,7),perf:r[2],type:r[3]||'',deal:r[4]||''})),
   /* Sheet "Commit toàn RC03": tên, team, phòng, commit quý, tháng 10, 11, 12 */
   commit: [
     ["RC 03","","",22410e6,null,null,null],
@@ -864,7 +921,8 @@ function renderCommit(){
       ${(()=>{const cm=curMonth(),j=CONFIG.MONTHS.indexOf(cm),c=head.commitM[j],v=head.rev.m[cm];return `<div class="stat ${c&&v>=c?'ok':''}"><span>Tháng ${cm} (hiện tại)</span><b>${money(v)}</b><small>${c!=null?`Commit tháng ${money(c)} · đạt ${pctTxt(c?v/c*100:0)}`:'Chưa có commit tháng'}</small></div>`;})()}`;
   }else $('#commitSum').innerHTML='';
   document.querySelectorAll('#commitSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.clv===S.clv)));
-  let list=all.filter(x=>x.kind===S.clv);
+  // Bỏ qua dòng team không có thành viên nào (vd dòng CD)
+  let list=all.filter(x=>x.kind===S.clv&&!(x.kind==='team'&&!S.commit.some(p=>p.kind==='person'&&nk(p.team)===nk(x.name))&&!S.staff.some(s=>nk(s.team)===nk(x.name))));
   if(S.dept!=='all')list=list.filter(x=>nk(x.dept)===nk(S.dept));
   if(S.clv==='person')list.sort((a,b)=>b.pct-a.pct||b.rev.q-a.rev.q);
   const extra=S.clv==='team'?'<th>Phòng</th>':S.clv==='person'?'<th>Team</th>':'';
@@ -1067,11 +1125,136 @@ function setPage(p){
   if(S.page==='kam'){riseIn([...document.querySelectorAll('#pgKam > .block:not([hidden])')]);if(!K.data&&!K.loading)loadKam();}
 }
 
+/* ===================== Giải thưởng chính sách quý IV ===================== */
+const AW={period:null};
+const lvNum=s=>{const m=String(s.level||'').match(/(\d+)/);return m?+m[1]:0;};
+const isJunior=s=>{const n=lvNum(s);return n>=1&&n<=4;};
+const TEAM_MS=[[2e9,4e6],[1.5e9,2.5e6],[1e9,1.5e6],[5e8,5e5]];
+const BC_MS=[[5e9,20e6,0],[2e9,10e6,0],[1.5e9,5e6,0],[1e9,2e6,0],[5e8,1e6,1],[3e8,5e5,1]];
+const DEPT_MS=[[10e9,2e6],[7e9,1.75e6],[5e9,1.5e6]];
+function awModel(){
+  const rows=allRows(),hasType=S.deals.some(d=>d.type!==undefined&&d.type!=='')||S.deals.every(d=>'type' in d);
+  const by={};rows.forEach(r=>by[r.username]={...r,ns:{},dl:{},hits:{}});
+  CONFIG.MONTHS.forEach(m=>rows.forEach(r=>{by[r.username].ns[m]=0;by[r.username].dl[m]=new Set();by[r.username].hits[m]=[];}));
+  S.deals.forEach(d=>{const p=by[d.owner];if(!p||d.year!==CONFIG.YEAR||!CONFIG.MONTHS.includes(d.month))return;
+    if(/new\s*sales/i.test(d.type||''))p.ns[d.month]+=+d.perf||0;
+    p.dl[d.month].add(d.deal||(d.date+'|'+d.perf));p.hits[d.month].push(d);});
+  const people=Object.values(by);
+  people.forEach(p=>{p.nsq=CONFIG.MONTHS.reduce((a,m)=>a+p.ns[m],0);
+    p.early={};CONFIG.MONTHS.forEach(m=>{let c=0,day=null;[...p.hits[m]].sort((a,b)=>a.date.localeCompare(b.date)).forEach(d=>{c+=+d.perf||0;if(day==null&&p.goal>0&&c>=p.goal)day=+d.date.slice(8,10);});p.early[m]=day;});
+    p.goalMonths=CONFIG.MONTHS.filter(m=>p.goal>0&&p.m[m]>=p.goal).length;});
+  return{people,hasType};
+}
+function periodState(m){
+  const now=Date.now();
+  if(m==='q'){const QS=new Date(CONFIG.QUARTER_START).getTime(),QE=new Date(CONFIG.QUARTER_END).getTime();return now<QS?'soon':now>QE?'done':'live';}
+  const s=monthStart(m),e=m===12?new Date(CONFIG.QUARTER_END).getTime():monthStart(m+1);return now<s?'soon':now>=e?'done':'live';
+}
+const ST_TXT={live:'Tạm tính',done:'Đã kết thúc, chờ công bố',soon:'Sắp tới'};
+function topOf(list,val){const mx=Math.max(0,...list.map(val));return mx>0?list.filter(x=>val(x)===mx):[];}
+function winChip(p,amt,note){return `<span class="win">${avaHTML(p,'sm')}<span><b>${esc(p.name)}</b><small>${note}</small></span><em>+${nf.format(amt)}</em></span>`;}
+function teamChip(name,amt,note){return `<span class="win team"><span><b>${esc(name)}</b><small>${note}</small></span><em>+${nf.format(amt)}</em></span>`;}
+function awardsFor(period,M){
+  const P=M.people,out=[];
+  const add=(o)=>out.push(o);
+  if(period!=='q'){
+    const m=period;
+    // Thưởng nóng: đạt Goal sớm
+    const early=P.map(p=>{const d=p.early[m];const amt=d==null?0:d<=10?1e6:d<=15?2e5:d<=20?1e5:0;return{p,d,amt};}).filter(x=>x.amt);
+    const nearE=P.filter(p=>p.goal>0&&p.early[m]==null).sort((a,b)=>b.m[m]/b.goal-a.m[m]/a.goal)[0];
+    add({grp:'Chiến dịch thúc đẩy kinh doanh (thưởng nóng)',name:'Đạt Goal sớm',who:'BC',cond:['Vượt Goal tháng theo Level trong 10 / 15 / 20 ngày đầu tháng','Mỗi BC nhận 1 lần ở mức cao nhất; ngày theo Payment_date'],
+      amt:['10 ngày: 1.000.000','15 ngày: 200.000','20 ngày: 100.000'],
+      wins:early.sort((a,b)=>a.d-b.d).map(x=>({p:x.p,amt:x.amt,note:`Chạm Goal ngày ${x.d}/${m}`})),
+      near:nearE&&nearE.m[m]>0?`Gần nhất: <strong>${esc(nearE.name)}</strong> ${pctTxt(nearE.m[m]/nearE.goal*100)} Goal, còn ${money(nearE.goal-nearE.m[m])}`:''});
+    // MVP tháng
+    const mvp=topOf(P,p=>p.m[m]);
+    add({grp:'Giải thưởng tháng',name:'Sales MVP of the Month',who:'BC',cond:['BC có doanh thu tháng cao nhất RC03'],amt:['1.500.000 · 1 giải'],
+      wins:mvp.map(p=>({p,amt:1.5e6,note:money(p.m[m])}))});
+    const tns=topOf(P,p=>p.ns[m]);
+    add({name:'Top New Sales of the Month',who:'BC',cond:['BC có doanh thu New Sales tháng cao nhất RC03'],amt:['1.000.000 · 1 giải'],
+      wins:tns.map(p=>({p,amt:1e6,note:'New Sales '+money(p.ns[m])})),warn:M.hasType?'':'Cần Apps Script bản mới để đọc cột Revenue_type'});
+    const jun=P.filter(isJunior);
+    const ijp=jun.filter(p=>p.m[m]>=160e6&&p.m[m]>=p.goal&&p.dl[m].size>=4);
+    const nj=jun.filter(p=>!ijp.includes(p)).sort((a,b)=>b.m[m]-a.m[m])[0];
+    add({name:'Ideal Junior Profile of the Month',who:'BC Level 1–4',cond:['Doanh thu tháng ≥ 160.000.000 và đạt Goal tại Level','Từ 4 deal won trở lên trong tháng'],amt:['500.000 · không giới hạn'],
+      wins:ijp.map(p=>({p,amt:5e5,note:`${money(p.m[m])} · ${p.dl[m].size} deal`})),
+      near:nj&&nj.m[m]>0?`Gần nhất: <strong>${esc(nj.name)}</strong> ${money(nj.m[m])} · ${nj.dl[m].size} deal`:''});
+    const teams={};P.forEach(p=>{const t=p.team||'Khác';(teams[t]=teams[t]||{name:t,dept:p.dept,v:0}).v+=p.m[m];});
+    const tl=Object.values(teams);
+    const tw=tl.map(t=>{const x=TEAM_MS.find(([th])=>t.v>=th);return x?{t,amt:x[1],th:x[0]}:null;}).filter(Boolean);
+    const nt=tl.filter(t=>t.v<5e8).sort((a,b)=>b.v-a.v)[0];
+    add({name:'BC Team Milestone Marker',who:'Nhóm kinh doanh',cond:['Doanh thu nhóm trong tháng đạt cột mốc','Mỗi nhóm nhận ở mức cao nhất đạt được'],amt:['500 triệu: 500.000','1 tỷ: 1.500.000','1,5 tỷ: 2.500.000','2 tỷ: 4.000.000'],
+      teamWins:tw.map(x=>({name:x.t.name,amt:x.amt,note:`${money(x.t.v)} · mốc ${money(x.th)}`})),
+      near:nt&&nt.v>0?`Gần nhất: <strong>${esc(nt.name)}</strong> ${money(nt.v)}, còn ${money(5e8-nt.v)} lên mốc 500 triệu`:''});
+  }else{
+    const mvp=topOf(P,p=>p.q);
+    add({grp:'Giải thưởng quý',name:'Sales MVP of the Quarter',who:'BC',cond:['BC có doanh thu quý cao nhất RC03'],amt:['5.000.000 · 1 giải'],wins:mvp.map(p=>({p,amt:5e6,note:money(p.q)}))});
+    const bj=topOf(P.filter(isJunior),p=>p.q);
+    add({name:'Best Junior Seller of the Quarter',who:'BC Level 1–4',cond:['BC Level 1–4 có doanh thu quý cao nhất RC03'],amt:['3.000.000 · 1 giải'],wins:bj.map(p=>({p,amt:3e6,note:money(p.q)}))});
+    const tns=topOf(P,p=>p.nsq);
+    add({name:'Top New Sales of the Quarter',who:'BC',cond:['BC có doanh thu New Sales quý cao nhất RC03'],amt:['3.000.000 · 1 giải'],wins:tns.map(p=>({p,amt:3e6,note:'New Sales '+money(p.nsq)})),warn:M.hasType?'':'Cần Apps Script bản mới để đọc cột Revenue_type'});
+    const gk=P.filter(p=>p.goalMonths>=2);
+    const ngk=P.filter(p=>p.goalMonths===1)[0];
+    add({name:'Goal Killers of the Quarter',who:'BC',cond:['Số tháng doanh thu vượt Goal theo Level trong quý'],amt:['2 tháng: 500.000','3 tháng: 1.000.000'],
+      wins:gk.map(p=>({p,amt:p.goalMonths>=3?1e6:5e5,note:`Vượt Goal ${p.goalMonths} tháng`})),
+      near:ngk?`Đã vượt Goal 1 tháng: <strong>${esc(P.filter(p=>p.goalMonths===1).map(p=>p.name).join(', '))}</strong>`:''});
+    const bm=P.map(p=>{const x=BC_MS.find(([th,,jo])=>p.q>=th&&(!jo||isJunior(p)));return x?{p,amt:x[1],th:x[0]}:null;}).filter(Boolean);
+    const nb=P.filter(p=>!bm.find(x=>x.p===p)).map(p=>{const th=isJunior(p)?3e8:1e9;return{p,th,gap:th-p.q};}).filter(x=>x.p.q>0).sort((a,b)=>a.gap/a.th-b.gap/b.th)[0];
+    add({name:'BC Milestone Marker',who:'BC',cond:['Doanh thu quý cá nhân đạt cột mốc, nhận ở mức cao nhất','Mốc 300 triệu và 500 triệu chỉ áp dụng Junior BC'],
+      amt:['300 triệu (Junior): 500.000','500 triệu (Junior): 1.000.000','1 tỷ: 2.000.000','1,5 tỷ: 5.000.000','2 tỷ: 10.000.000','5 tỷ: 20.000.000'],
+      wins:bm.map(x=>({p:x.p,amt:x.amt,note:`${money(x.p.q)} · mốc ${money(x.th)}`})),
+      near:nb?`Gần nhất: <strong>${esc(nb.p.name)}</strong> ${money(nb.p.q)}, còn ${money(nb.gap)} lên mốc ${money(nb.th)}`:''});
+    const depts={};P.forEach(p=>{(depts[p.dept]=depts[p.dept]||{name:p.dept,v:0}).v+=p.q;});
+    const dl=Object.values(depts);
+    const dw=dl.map(d=>{const x=DEPT_MS.find(([th])=>d.v>=th);return x?{d,amt:Math.round(d.v/1e9*x[1]/1000)*1000,rate:x[1]}:null;}).filter(Boolean);
+    const nd=dl.filter(d=>d.v<5e9).sort((a,b)=>b.v-a.v)[0];
+    add({name:'Excellent Revenue Department of the Quarter',who:'Phòng kinh doanh',cond:['Doanh thu quý của phòng đạt cột mốc, nhận ở mức cao nhất','Thưởng = doanh thu quý (tỷ) × đơn giá'],
+      amt:['5 tỷ – dưới 7 tỷ: 1.500.000/tỷ','7 tỷ – dưới 10 tỷ: 1.750.000/tỷ','Từ 10 tỷ: 2.000.000/tỷ'],
+      teamWins:dw.map(x=>({name:x.d.name,amt:x.amt,note:`${money(x.d.v)} × ${nf.format(x.rate)}/tỷ`})),
+      near:nd&&nd.v>0?`Gần nhất: <strong>${esc(nd.name)}</strong> ${money(nd.v)}, còn ${money(5e9-nd.v)} lên mốc 5 tỷ`:''});
+  }
+  return out;
+}
+function renderAwards(){
+  if(!AW.period){const cm=curMonth();AW.period=periodState('q')==='done'?'q':cm;}
+  const per=[...CONFIG.MONTHS.map(m=>[String(m),'Tháng '+m]),['q','Cả quý']];
+  $('#awSeg').innerHTML=per.map(([v,l])=>`<button type="button" data-aw="${v}" aria-pressed="${String(AW.period)===v}">${l}</button>`).join('');
+  const M=awModel(),st=periodState(AW.period);
+  const list=st==='soon'?awardsFor(AW.period,{people:M.people.map(p=>({...p})),hasType:M.hasType}).map(a=>({...a,wins:[],teamWins:[],near:''})):awardsFor(AW.period,M);
+  const pname=AW.period==='q'?'quý IV':'tháng '+AW.period;
+  $('#awSub').textContent=st==='soon'?`Kỳ ${pname} chưa bắt đầu. Bảng dưới là các hạng mục và điều kiện.`:`Kết quả ${ST_TXT[st].toLowerCase()} cho ${pname}, cập nhật theo doanh thu trong sheet.`;
+  let total=0,awarded=0;const recv=new Set();
+  list.forEach(a=>{const w=(a.wins||[]).length+(a.teamWins||[]).length;if(w)awarded++;(a.wins||[]).forEach(x=>{total+=x.amt;recv.add(x.p.username);});(a.teamWins||[]).forEach(x=>{total+=x.amt;recv.add('T:'+x.name);});});
+  $('#awSum').innerHTML=`<div class="stat warn"><span>Tổng thưởng ${ST_TXT[st]==='Sắp tới'?'':'tạm tính '}${pname}</span><b>${vnd(total)}</b><small>${ST_TXT[st]}</small></div>
+    <div class="stat"><span>Hạng mục đã có người đạt</span><b>${awarded} / ${list.length}</b><small>Theo chính sách CS-RC03-SALES-01</small></div>
+    <div class="stat"><span>Cá nhân / nhóm nhận thưởng</span><b>${recv.size}</b><small>${AW.period==='q'?'Giải quý':'Giải tháng và thưởng nóng'}</small></div>`;
+  $('#awTbl').innerHTML=`<thead><tr><th>Hạng mục</th><th>Điều kiện</th><th>Mức thưởng (VNĐ)</th><th>Người / nhóm đạt</th><th>Trạng thái</th></tr></thead><tbody>${
+    list.map(a=>{const ws=[...(a.wins||[]).map(x=>winChip(x.p,x.amt,x.note)),...(a.teamWins||[]).map(x=>teamChip(x.name,x.amt,x.note))];
+      const s=st==='soon'?'soon':ws.length?st:'none';
+      return `${a.grp?`<tr class="grp"><td colspan="5">${esc(a.grp)}</td></tr>`:''}<tr>
+      <td class="aw-name"><b>${esc(a.name)}</b><span>${esc(a.who)}</span></td>
+      <td class="aw-cond"><ul>${a.cond.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></td>
+      <td class="aw-amt">${a.amt.map(x=>`<div>${esc(x)}</div>`).join('')}</td>
+      <td class="aw-win">${ws.length?`<div class="winners">${ws.join('')}</div>`:`<span class="near">${st==='soon'?'Chưa bắt đầu':a.warn?esc(a.warn):'Chưa có người đạt'}${a.near?'<br>'+a.near:''}</span>`}</td>
+      <td><span class="awst ${s}">${s==='none'?'Chưa đạt':ST_TXT[s]}</span></td></tr>`;}).join('')}</tbody>`;
+  // Tổng theo người: các tháng + quý
+  const cols=[...CONFIG.MONTHS,'q'],sum={},tsum={};
+  cols.forEach(c=>{if(periodState(c)==='soon')return;awardsFor(c,M).forEach(a=>{(a.wins||[]).forEach(x=>{const o=sum[x.p.username]||(sum[x.p.username]={p:x.p,v:{}});o.v[c]=(o.v[c]||0)+x.amt;});
+    (a.teamWins||[]).forEach(x=>{const o=tsum[x.name]||(tsum[x.name]={name:x.name,v:{}});o.v[c]=(o.v[c]||0)+x.amt;});});});
+  const tot=o=>cols.reduce((a,c)=>a+(o.v[c]||0),0);
+  const pr=Object.values(sum).sort((a,b)=>tot(b)-tot(a)),tr=Object.values(tsum).sort((a,b)=>tot(b)-tot(a));
+  const cell=v=>v?`<td class="num money-hi">${nf.format(v)}</td>`:'<td class="num dash">–</td>';
+  $('#awPeople').innerHTML=`<thead><tr><th>#</th><th>Cá nhân / nhóm</th>${CONFIG.MONTHS.map(m=>`<th class="num">Tháng ${m}</th>`).join('')}<th class="num">Giải quý</th><th class="num">Tổng (VNĐ)</th></tr></thead><tbody>${
+    pr.length+tr.length?[...pr.map((o,i)=>`<tr><td>${i+1}</td><td><div class="who">${avaHTML(o.p,'sm')}<div class="who-txt"><b>${esc(o.p.name)}</b><span>${esc(o.p.team)}</span></div></div></td>${cols.map(c=>cell(o.v[c])).join('')}<td class="num"><b>${vnd(tot(o))}</b></td></tr>`),
+      ...tr.map((o,i)=>`<tr><td>${pr.length+i+1}</td><td><b>${esc(o.name)}</b><span class="chip" style="margin-left:6px">Nhóm / phòng</span></td>${cols.map(c=>cell(o.v[c])).join('')}<td class="num"><b>${vnd(tot(o))}</b></td></tr>`)].join('')
+    :`<tr><td colspan="7" class="empty">Chưa có ai đạt giải.</td></tr>`}</tbody>`;
+}
+
 function render(){
   if(S.page!=='bonus'){S.dirty=true;return;}
   S.dirty=false;
   const rows=compute();
-  renderControls();renderCommit();renderHero(rows);renderRace(rows);renderHeat(rows);
+  renderControls();renderCommit();renderHero(rows);renderRace(rows);renderHeat(rows);renderAwards();
   S.first=false;
 }
 
@@ -1090,6 +1273,7 @@ document.addEventListener('click',e=>{
   else if(b.dataset.dept){S.dept=b.dataset.dept;render();}
   else if(b.dataset.period){S.period=b.dataset.period==='q'?'q':+b.dataset.period;render();}
   else if(b.dataset.clv){S.clv=b.dataset.clv;renderCommit();}
+  else if(b.dataset.aw){AW.period=b.dataset.aw==='q'?'q':+b.dataset.aw;renderAwards();}
   else if(b.dataset.klv){K.lv=b.dataset.klv;$('#kamSum').classList.add('anim');renderKamSum();}
   else if(b.dataset.exp){K.f.exp=b.dataset.exp;K.limit=60;renderKam();}
   else if(b.id==='kamSwitch'){LS.set(KAM_KEY,'');K.data=null;K.open.clear();K.limit=60;K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:'next'};$('#kamEmail').value='';showGate('');$('#kamEmail').focus();}
