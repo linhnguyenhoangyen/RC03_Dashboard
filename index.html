@@ -192,6 +192,10 @@ tr.lv-dept td{background:rgba(61,123,255,.10);font-weight:600}
 .chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.08);border:1px solid var(--edge);color:var(--muted);white-space:nowrap}
 
 
+/* ---------- Lọc Level đường đua ---------- */
+.lvbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:-4px 0 14px}
+.lvlbl{font-size:13px;color:var(--muted)}
+.lvbar .sel{height:36px;font-size:13.5px}
 /* ---------- Giải thưởng ---------- */
 .awtbl td{white-space:normal;vertical-align:top}
 .awtbl td.aw-name{min-width:190px}
@@ -413,17 +417,12 @@ tr.apps>td>table{animation:dropIn .35s cubic-bezier(.2,.8,.2,1) both}
       <div><h2 id="raceTitle">Đường đua</h2><p class="sub" id="raceSub"></p></div>
       <div class="seg periodSeg" role="group" aria-label="Chọn kỳ xem"></div>
     </div>
+    <div class="lvbar"><span class="lvlbl">Lọc theo Level</span><div class="seg" id="lvSeg" role="group" aria-label="Lọc theo Level"></div>
+      <select class="sel" id="lvSel" aria-label="Chọn Level cụ thể"></select><span class="upd" id="lvCount"></span></div>
     <div class="lanes" id="race"></div>
     <div class="legend" id="raceLegend"><span><i style="background:var(--t-backup)"></i>Back up</span><span><i style="background:var(--t-kpi)"></i>KPI</span><span><i style="background:var(--t-goal)"></i>Goal</span><span><i style="background:var(--t-out)"></i>Out Performance</span></div>
   </article>
 
-  <!-- Khối 3: Tỷ lệ hoàn thành -->
-  <article class="block">
-    <div class="block-head">
-      <div><h2>Tỷ lệ hoàn thành KPI theo tháng</h2><p class="sub">Viền lục giác chạy theo % KPI, màu cho biết mốc cao nhất đã chạm.</p></div>
-    </div>
-    <div class="scroll"><div class="heat" id="heat"></div></div>
-  </article>
 
 
 
@@ -533,7 +532,8 @@ const AVATARS = {
   vando02:'1dnbZ_dhTGhpMS0DF6-Arebpf-zMBEoJY', ngannguyen07:'15oLxpJlj4KWCUw_0MXv7XZ8DbpUWAH7f', kenphan:'1Hn7a7XY6GUnOsHyRNHtYovX1ZSxdE6Zn',
   mynguyen08:'1dNLeSs7YF5HSvY06w1wtWP-mzWXIGoTF', cuc:'1HNWE6YFNyWFMM1u6eqZW6J72-a8IgNg9', lamnguyen04:'1nMl5XuUEU3XDULfMkcNLTn44Na_PagaS',
   truongluu:'1G_QNaXwReSuQoRDsgNuJsJonCf0kPWNl', thanhnguyen08:'1_ANBVgJcihQHcWz-2Iifnv_6s34AyX3W',
-  hungphan:'16BDJusEFQneX8DATdZsohQaj5RWQotwh', phuongho:'1bWpL8cjjSCArpRP3w0fv5jm4MHlNZMCn', hatran02:'1LsZon5InfcvtXSkXWSYWQaE3A7Hr93HM'
+  hungphan:'16BDJusEFQneX8DATdZsohQaj5RWQotwh', phuongho:'1bWpL8cjjSCArpRP3w0fv5jm4MHlNZMCn', hatran02:'1LsZon5InfcvtXSkXWSYWQaE3A7Hr93HM',
+  thuyennguyen:'18OMe1RPPcth_fh4iGatcpJ1vkI9jJEEP', thanhnguyen10:'1zD5XF2g7a0Zb1YN3FRaBVSGfNvmjSjsj'
 };
 
 /* Dữ liệu dự phòng (Google Sheet ngày 20/10/2026), dùng khi chưa đọc được Apps Script */
@@ -622,7 +622,7 @@ const TIERS=[
 const STAGES=[{at:0,name:'Xuất phát'},{at:.25,name:'Số hóa quy trình'},{at:.5,name:'Tự động hóa vận hành'},{at:.75,name:'AI Agent đồng hành'},{at:1,name:'Về đích'}];
 const AVA_BG=['linear-gradient(135deg,#3D7BFF,#7B6BFF)','linear-gradient(135deg,#7B6BFF,#C66BF0)','linear-gradient(135deg,#2FB8FF,#3D7BFF)','linear-gradient(135deg,#F06BD8,#8E7BFF)','linear-gradient(135deg,#39D98A,#2FB8FF)','linear-gradient(135deg,#FFB547,#F0708A)'];
 
-const S={staff:[],deals:[],commit:[],factor:CONFIG.QUARTER_FACTOR,dept:'all',period:'q',clv:'team',page:'bonus',updatedAt:null,first:true};
+const S={staff:[],deals:[],commit:[],factor:CONFIG.QUARTER_FACTOR,dept:'all',period:'q',clv:'team',lv:'all',page:'bonus',updatedAt:null,first:true};
 
 /* ---------- Tiện ích ---------- */
 const $=s=>document.querySelector(s);
@@ -857,12 +857,20 @@ function laneHTML(r,rank){
   </div>`;
 }
 function renderRace(rows){
-  const sorted=[...rows].sort((a,b)=>{const ka=th(a,scopeOf())[1]||1,kb=th(b,scopeOf())[1]||1;return valOf(b)/kb-valOf(a)/ka||valOf(b)-valOf(a);});
+  const lvN=r=>{const m=String(r.level||'').match(/(\d+)/);return m?+m[1]:0;};
+  const levels=[...new Set(rows.map(lvN).filter(Boolean))].sort((a,b)=>a-b);
+  const pass=r=>S.lv==='all'||(S.lv==='junior'?lvN(r)>=1&&lvN(r)<=4:S.lv==='senior'?lvN(r)>=5:lvN(r)===+S.lv);
+  $('#lvSeg').innerHTML=[['all','Tất cả'],['junior','Junior (Level 1–4)'],['senior','Senior (Level 5+)']].map(([v,l])=>`<button type="button" data-lv="${v}" aria-pressed="${S.lv===v}">${l}</button>`).join('');
+  $('#lvSel').innerHTML=`<option value="">Level cụ thể</option>`+levels.map(n=>`<option value="${n}"${String(S.lv)===String(n)?' selected':''}>Level ${n}</option>`).join('');
+  const shown=rows.filter(pass);
+  $('#lvCount').textContent=`${shown.length} / ${rows.length} BC`;
+  /* Sắp xếp theo doanh thu của kỳ đang xem, bằng nhau thì xét % mốc */
+  const sorted=[...shown].sort((a,b)=>valOf(b)-valOf(a)||valOf(b)/(th(b,scopeOf())[1]||1)-valOf(a)/(th(a,scopeOf())[1]||1));
   $('#raceTitle').textContent=S.period==='q'?'Đường đua quý 4':`Đường đua tháng ${S.period}`;
   $('#raceSub').textContent=S.period==='q'
-    ?`Doanh thu cộng dồn tháng 10 đến 12 so với commit quý của từng người (cột Quý 4 - Commit, sheet Commit toàn RC03). Lục giác sáng lên khi đã chạm commit.`
-    :`Doanh thu tháng ${S.period} so với mốc tháng theo Level. Lục giác trên làn ghi mốc theo % KPI, sáng lên khi đã vượt qua.`;
-  $('#race').innerHTML=sorted.map((r,i)=>laneHTML(r,i+1)).join('');
+    ?`Xếp hạng theo doanh thu cộng dồn tháng 10 đến 12. Mốc là commit quý của từng cá nhân (sheet Commit toàn RC03).`
+    :`Xếp hạng theo doanh thu tháng ${S.period}. Mốc tháng theo Level, lục giác sáng lên khi đã vượt qua.`;
+  $('#race').innerHTML=sorted.map((r,i)=>laneHTML(r,i+1)).join('')||'<p class="empty">Không có BC nào ở Level này.</p>';
   $('#raceLegend').innerHTML=S.period==='q'?'<span><i style="background:var(--t-kpi)"></i>Commit quý 4</span>'
     :'<span><i style="background:var(--t-backup)"></i>Back up</span><span><i style="background:var(--t-kpi)"></i>KPI</span><span><i style="background:var(--t-goal)"></i>Goal</span><span><i style="background:var(--t-out)"></i>Out Performance</span>';
 }
@@ -1252,7 +1260,7 @@ function render(){
   if(S.page!=='bonus'){S.dirty=true;return;}
   S.dirty=false;
   const rows=compute();
-  renderControls();renderCommit();renderHero(rows);renderRace(rows);renderHeat(rows);renderAwards();
+  renderControls();renderCommit();renderHero(rows);renderRace(rows);renderAwards();
   S.first=false;
 }
 
@@ -1271,6 +1279,7 @@ document.addEventListener('click',e=>{
   else if(b.dataset.dept){S.dept=b.dataset.dept;render();}
   else if(b.dataset.period){S.period=b.dataset.period==='q'?'q':+b.dataset.period;render();}
   else if(b.dataset.clv){S.clv=b.dataset.clv;renderCommit();}
+  else if(b.dataset.lv){S.lv=b.dataset.lv;renderRace(compute());}
   else if(b.dataset.aw){AW.period=b.dataset.aw==='q'?'q':+b.dataset.aw;renderAwards();}
   else if(b.dataset.klv){K.lv=b.dataset.klv;$('#kamSum').classList.add('anim');renderKamSum();}
   else if(b.dataset.exp){K.f.exp=b.dataset.exp;K.limit=60;renderKam();}
@@ -1278,6 +1287,7 @@ document.addEventListener('click',e=>{
   else if(b.id==='fClear'){K.f={q:'',dept:'',team:'',bc:'',app:'',exp:'all',from:'',to:'',sort:K.f.sort};K.limit=60;renderKam();}
   else if(b.closest('#kamMore')){K.limit+=60;renderKamList();}
 });
+$('#lvSel').addEventListener('change',e=>{S.lv=e.target.value||'all';renderRace(compute());});
 $('#btnRefresh').onclick=()=>S.page==='kam'?loadKam(undefined,true):load(true);
 $('#kamForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#kamEmail').value.trim().toLowerCase();if(v)loadKam(v,false);});
 let qT;
